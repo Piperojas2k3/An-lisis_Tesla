@@ -22,51 +22,64 @@
         <div class="grid-teoria">
             <section class="tarjeta fade-in">
                 <h2>1. El problema de usar el mercado</h2>
-                <p>Desde la perspectiva de <strong>Coase y Williamson</strong>, las empresas existen para evitar los costos de utilizar el sistema de precios del mercado abierto. En sus inicios, Tesla se enfrentó a un escenario hostil: usar el mercado para obtener piezas de vehículos eléctricos generaba altísimos <strong>Costos de Transacción</strong>. Buscar proveedores, redactar contratos inciertos y vigilar estándares resultaba demasiado riesgoso. Por lo tanto, Tesla se consolidó como una gran jerarquía interna que sustituye al mercado.</p>
+                <p>Desde la perspectiva teórica, las empresas existen para evitar los costos de usar el mercado abierto. Al principio, Tesla se enfrentó a un problema: usar el mercado para obtener piezas generaba altísimos <span class="tooltip" data-info="El tiempo y dinero gastado en buscar proveedores, negociar y vigilar que cumplan.">Costos de Transacción</span>. Buscar proveedores y redactar contratos inciertos era demasiado riesgoso. Por eso, Tesla se convirtió en una jerarquía interna que <strong>sustituye al mercado</strong>.</p>
             </section>
 
             <section class="tarjeta fade-in">
                 <h2>2. Determinantes de Gobernanza</h2>
                 <ul>
-                    <li><strong>Alta incertidumbre:</strong> El mercado de los vehículos eléctricos en 2010 era volátil. Ante la imposibilidad de contratos perfectos, Tesla eligió la coordinación interna.</li>
-                    <li><strong>Especificidad de activos:</strong> Las celdas de batería y el software tienen valor máximo dentro del ecosistema Tesla, pero son inútiles para marcas tradicionales.</li>
-                    <li><strong>Riesgo de Oportunismo (Hold-up):</strong> Integrar la producción eliminó la vulnerabilidad de que los proveedores externos subieran los precios abruptamente.</li>
+                    <li><strong>Alta incertidumbre:</strong> El mercado eléctrico en 2010 era volátil. Como no se pueden hacer contratos perfectos, Tesla eligió la coordinación interna.</li>
+                    <li><strong>Especificidad de activos:</strong> Las baterías de Tesla tienen alta <span class="tooltip" data-info="Piezas tan especiales que solo sirven para tu producto y para nadie más.">especificidad</span>; son valiosas para ellos, pero inútiles para marcas tradicionales.</li>
+                    <li><strong>Riesgo de Oportunismo:</strong> Integrar la producción eliminó el riesgo de <span class="tooltip" data-info="Cuando un proveedor sabe que dependes de él y se aprovecha subiéndote los precios (Hold-up).">Hold-up</span> por parte de externos.</li>
                 </ul>
             </section>
 
             <section class="tarjeta fade-in">
                 <h2>3. Grado de Integración Vertical</h2>
                 <ul>
-                    <li><strong>Hacia atrás:</strong> A través de las <em>Gigafactories</em>, Tesla asumió el rol de acreedor residual fabricando motores, chips y electrónica de potencia desde cero.</li>
-                    <li><strong>Hacia adelante:</strong> Eliminó a los concesionarios tradicionales, estableciendo una red global de Superchargers y ventas directas al consumidor.</li>
+                    <li><strong>Hacia atrás:</strong> En sus Gigafactories, Tesla asumió el rol de <span class="tooltip" data-info="El dueño que asume los riesgos y se queda con las ganancias finales tras pagar los costos.">acreedor residual</span> fabricando motores y chips desde cero.</li>
+                    <li><strong>Hacia adelante:</strong> Eliminó a los concesionarios, creando sus propias tiendas directas y red de carga.</li>
                 </ul>
             </section>
 
             <section class="tarjeta fade-in">
                 <h2>4. Límites a la Empresa</h2>
-                <p>El aumento en el tamaño organizacional de Tesla disparó sus <strong>Costos de Coordinación</strong>. Administrar desde la fundición del chasis hasta la entrega genera una enorme complejidad burocrática (el famoso "infierno de producción"). El <strong>punto óptimo de integración</strong> se alcanza donde el costo marginal de administrar un proceso internamente se iguala al costo de tercerizarlo.</p>
+                <p>El tamaño de Tesla disparó sus <span class="tooltip" data-info="El dolor de cabeza de administrar una empresa gigante (burocracia, cuellos de botella).">Costos de Coordinación</span>. Administrar todo desde cero genera mucha burocracia. El <strong>punto óptimo de integración</strong> se alcanza donde el costo de administrar algo internamente se iguala al costo de comprarlo afuera.</p>
             </section>
         </div>
 
         <section class="interactivo fade-in" id="simulador">
             <div class="interactivo-header">
-                <h2>Simulador de Punto Óptimo</h2>
-                <p>Encuentra el equilibrio entre hacer (Costos de Coordinación) y comprar (Costos de Transacción).</p>
+                <h2>Simulador Inteligente: ¿Hacer o Comprar?</h2>
+                <p>Descubre qué le conviene a la empresa moviendo los valores o probando estos casos reales.</p>
+                
+                <div class="escenarios-botones">
+                    <button onclick="aplicarEscenario(180, 600)">Caso 1: Proveedores confiables y baratos</button>
+                    <button onclick="aplicarEscenario(50, 1800)">Caso 2: Proveedores abusivos (Riesgo Tesla)</button>
+                    <button onclick="aplicarEscenario(200, 1500)">Caso 3: Caos administrativo interno</button>
+                </div>
             </div>
             
-            <div class="controles-panel">
-                <div class="control-grupo">
-                    <label for="burocracia">Complejidad Interna (Coordinación): <span id="val-burocracia" class="badge">100</span></label>
-                    <input type="range" id="burocracia" min="10" max="200" value="100" step="10">
+            <div class="simulador-grid">
+                <div class="controles-panel">
+                    <div class="control-grupo">
+                        <label for="burocracia">Complejidad Interna (Burocracia): <span id="val-burocracia" class="badge">100</span></label>
+                        <input type="range" id="burocracia" min="10" max="200" value="100" step="10">
+                    </div>
+                    <div class="control-grupo">
+                        <label for="friccion">Fricción del Mercado (Proveedores): <span id="val-friccion" class="badge">1000</span></label>
+                        <input type="range" id="friccion" min="500" max="2000" value="1000" step="100">
+                    </div>
+                    
+                    <div class="veredicto-caja" id="caja-veredicto">
+                        <h3>Veredicto del Modelo:</h3>
+                        <p id="texto-veredicto">Analizando...</p>
+                    </div>
                 </div>
-                <div class="control-grupo">
-                    <label for="friccion">Fricción del Mercado (Transacción): <span id="val-friccion" class="badge">1000</span></label>
-                    <input type="range" id="friccion" min="500" max="2000" value="1000" step="100">
-                </div>
-            </div>
 
-            <div class="grafico-contenedor">
-                <canvas id="graficoCostos"></canvas>
+                <div class="grafico-contenedor">
+                    <canvas id="graficoCostos"></canvas>
+                </div>
             </div>
         </section>
     </main>
