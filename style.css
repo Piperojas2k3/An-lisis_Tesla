@@ -1,6 +1,5 @@
 :root {
-    --bg: #0a0a0a;
-    --card: #171717;
+    --bg: #000000;
     --text: #f5f5f7;
     --muted: #a1a1a6;
     --red: #e82127;
@@ -8,120 +7,46 @@
     --green: #30d158;
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    margin: 0;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-}
+body { font-family: 'Montserrat', sans-serif; color: var(--text); margin: 0; scroll-behavior: smooth; overflow-x: hidden; background: var(--bg); }
+
+#bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
 
 main { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
 
-/* Hero */
-.hero {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: radial-gradient(circle at center, #1f1f1f 0%, #0a0a0a 100%);
-    border-bottom: 1px solid #333;
-}
-h1 { font-size: 5rem; margin: 0; letter-spacing: 10px; text-transform: uppercase;}
+.hero { height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; }
+h1 { font-size: 5rem; margin: 0; letter-spacing: 10px; text-transform: uppercase; text-shadow: 0 5px 20px rgba(0,0,0,0.8);}
 .subtitle { font-size: 1.5rem; color: var(--muted); font-weight: 300;}
-.tagline { color: var(--red); font-weight: bold; margin-bottom: 30px; }
-.btn-scroll { border: 2px solid white; padding: 12px 24px; text-decoration: none; color: white; border-radius: 30px; font-weight: bold; transition: 0.3s; display: inline-block;}
+.tagline { color: var(--blue); font-weight: bold; margin-bottom: 30px; }
+.btn-scroll { border: 2px solid white; padding: 12px 24px; text-decoration: none; color: white; border-radius: 30px; font-weight: bold; transition: 0.3s; display: inline-block; backdrop-filter: blur(5px);}
 .btn-scroll:hover { background: white; color: black; }
 
-/* Tarjetas Expansibles */
-.instruccion-clic { text-align: center; color: var(--blue); font-weight: bold; margin-bottom: 30px; }
 .grid-teoria { display: grid; grid-template-columns: 1fr; gap: 20px; position: relative;}
 @media(min-width: 768px) { .grid-teoria { grid-template-columns: 1fr 1fr; } }
 
+/* Tarjetas fijas con efecto cristal */
 .tarjeta { 
-    background: var(--card); 
-    padding: 25px; 
+    background: rgba(20, 20, 20, 0.4); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    padding: 30px; 
     border-radius: 12px; 
-    border: 1px solid #333; 
-    transition: all 0.4s ease; 
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    transition: all 0.3s ease; 
 }
-.tarjeta:hover:not(.expandida) { transform: translateY(-5px); border-color: #555; box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
-.tarjeta h2 { margin-top: 0; color: white; font-size: 1.2rem; border-bottom: 1px solid #333; padding-bottom: 10px;}
+.tarjeta:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+.tarjeta h2 { margin-top: 0; color: white; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+ul { padding-left: 20px; }
+li { margin-bottom: 10px; }
 
-/* Estilos de la tarjeta cuando se expande */
-#overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85); z-index: 99; opacity: 0;
-    pointer-events: none; transition: 0.4s ease;
-}
-#overlay.activo { opacity: 1; pointer-events: auto; backdrop-filter: blur(5px);}
-
-.tarjeta.expandida {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 700px;
-    z-index: 100;
-    cursor: default;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    border: 1px solid var(--blue);
-}
-
-/* Ocultar botones por defecto, mostrarlos al expandir */
-.contenido-tarjeta { display: flex; flex-direction: column; height: 100%;}
-.controles-tarjeta { display: none; margin-top: 30px; justify-content: space-between; border-top: 1px solid #333; padding-top: 20px;}
-.tarjeta.expandida .controles-tarjeta { display: flex; }
-
-.btn-cerrar { background: transparent; border: 1px solid var(--muted); color: var(--muted); padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s;}
-.btn-cerrar:hover { background: #333; color: white;}
-.btn-siguiente { background: var(--blue); border: none; color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;}
-.btn-siguiente:hover { background: #1a75ff; }
-
-/* Tooltips Mejorados (Con Definición y Ejemplo) */
-.tooltip {
-    border-bottom: 2px dashed var(--blue);
-    cursor: help;
-    color: var(--blue);
-    position: relative; 
-    font-weight: bold;
-}
-.tooltip .tooltip-text {
-    visibility: hidden;
-    position: absolute;
-    bottom: 130%;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background: #222;
-    color: var(--text);
-    padding: 15px;
-    border-radius: 12px;
-    width: 250px;
-    font-size: 0.85rem;
-    font-weight: normal;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-    border: 1px solid #444;
-    z-index: 110;
-    opacity: 0;
-    transition: all 0.3s ease;
-    pointer-events: none;
-}
-.tooltip:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
+/* Tooltips Espectaculares */
+.tooltip { border-bottom: 2px dashed var(--blue); cursor: help; color: var(--blue); position: relative; font-weight: bold; }
+.tooltip .tooltip-text { visibility: hidden; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) translateY(10px); background: #1a1a1a; color: var(--text); padding: 15px; border-radius: 12px; width: 250px; font-size: 0.85rem; font-weight: normal; box-shadow: 0 10px 25px rgba(0,0,0,0.8); border: 1px solid #444; z-index: 110; opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+.tooltip:hover .tooltip-text { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* Simulador y Gráfico */
-.interactivo { padding: 40px; background: var(--card); border-radius: 12px; border: 1px solid #333; margin-top: 60px;}
+.interactivo { padding: 40px; background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(15px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-top: 60px;}
 .escenarios-botones { display: flex; gap: 10px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap;}
-.escenarios-botones button { background: #222; border: 1px solid #444; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+.escenarios-botones button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
 .escenarios-botones button:hover { background: var(--text); color: black; }
 .simulador-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
 @media(min-width: 768px) { .simulador-grid { grid-template-columns: 1fr 2fr; } }
@@ -130,14 +55,11 @@ label { font-weight: bold; display: block; margin-bottom: 10px; }
 .badge { background: #333; padding: 4px 10px; border-radius: 10px; float: right; }
 input[type=range] { width: 100%; cursor: pointer; }
 
-.veredicto-caja { margin-top: 30px; padding: 20px; background: #222; border-left: 5px solid var(--green); transition: 0.3s; border-radius: 0 8px 8px 0; }
+.veredicto-caja { margin-top: 30px; padding: 20px; background: rgba(0,0,0,0.5); border-left: 5px solid var(--green); transition: 0.3s; border-radius: 0 8px 8px 0; }
 .veredicto-caja h3 { margin: 0 0 10px 0; font-size: 1rem; }
 #texto-veredicto { font-size: 1.2rem; font-weight: bold; margin: 0 0 5px 0; }
 #explicacion { color: var(--muted); }
-
 .grafico-contenedor { position: relative; height: 350px; width: 100%; }
-.hint { text-align: center; color: var(--muted); margin-top: 20px; font-size: 0.9rem; }
 
-/* Animaciones */
 .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
