@@ -1,5 +1,37 @@
 // ==========================================
-// 1. MOTOR 3D (SCROLLYTELLING)
+// 1. LÓGICA DE LA CORTINA Y MODALES
+// ==========================================
+const cortina = document.getElementById('cortina');
+const btnIngresar = document.getElementById('btn-ingresar');
+const fondoModal = document.getElementById('fondo-modal');
+const modales = document.querySelectorAll('.ventana-modal');
+
+// Abrir la Cortina
+btnIngresar.addEventListener('click', () => {
+    cortina.classList.add('abierta');
+    // Para que una vez que suba, no estorbe los clics
+    setTimeout(() => { cortina.style.display = 'none'; }, 1200);
+});
+
+// Función para abrir una tarjeta en Pantalla Completa
+window.abrirModal = function(idModal) {
+    fondoModal.classList.add('activo');
+    document.getElementById(idModal).classList.add('activa');
+    // Bloquear el scroll del fondo mientras se lee
+    document.body.style.overflow = 'hidden';
+}
+
+// Función para Regresar (Cerrar) con efecto de achique
+window.cerrarModal = function() {
+    fondoModal.classList.remove('activo');
+    modales.forEach(m => m.classList.remove('activa'));
+    // Devolver el scroll al cuerpo
+    document.body.style.overflow = 'auto';
+}
+
+
+// ==========================================
+// 2. MOTOR 3D (Fondo Dinámico)
 // ==========================================
 const canvas3D = document.getElementById('bg-canvas');
 const scene = new THREE.Scene();
@@ -41,7 +73,11 @@ for (let i = 0; i < 70; i++) {
 
 let scrollPercent = 0;
 document.body.onscroll = () => {
-    scrollPercent = document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+    // Calculamos el scroll solo si la cortina ya se abrió
+    if(cortina.classList.contains('abierta')) {
+        let maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        scrollPercent = maxScroll > 0 ? document.documentElement.scrollTop / maxScroll : 0;
+    }
 };
 
 function animate3D() {
@@ -53,23 +89,17 @@ function animate3D() {
         let targetX, targetY, targetZ;
         let targetColor = new THREE.Color();
 
-        if(scrollPercent < 0.2) {
+        if(scrollPercent < 0.3) {
             targetX = p.mX; targetY = p.mY; targetZ = p.mZ;
             targetColor.setHex(0x2997ff);
-        } else if (scrollPercent < 0.45) {
-            let factor = (scrollPercent - 0.2) * 4;
-            targetX = p.mX * (1 - factor*0.8) + Math.random()*0.5; 
-            targetY = p.mY * (1 - factor*0.8) + Math.random()*0.5; 
-            targetZ = p.mZ * (1 - factor*0.8);
-            targetColor.setHex(0xe82127);
-        } else if (scrollPercent < 0.75) {
+        } else if (scrollPercent < 0.6) {
             targetX = p.iX; targetY = p.iY; targetZ = p.iZ;
             targetColor.setHex(0x30d158);
         } else {
-            let factor = (scrollPercent - 0.75) * 4;
-            targetX = p.iX * (1 + factor * 0.8) + Math.sin(Date.now()*0.005 + index)*0.5;
-            targetY = p.iY * (1 + factor * 0.8) + Math.cos(Date.now()*0.005 + index)*0.5;
-            targetZ = p.iZ * (1 + factor * 0.8);
+            let factor = (scrollPercent - 0.6) * 4;
+            targetX = p.iX * (1 + factor * 0.5) + Math.sin(Date.now()*0.005 + index)*0.5;
+            targetY = p.iY * (1 + factor * 0.5) + Math.cos(Date.now()*0.005 + index)*0.5;
+            targetZ = p.iZ * (1 + factor * 0.5);
             targetColor.setHex(0xff9900);
         }
 
@@ -91,15 +121,8 @@ window.addEventListener('resize', () => {
 
 
 // ==========================================
-// 2. LÓGICA UI Y GRÁFICO (RESTAURADO A 3 LÍNEAS)
+// 3. SIMULADOR ESTRATÉGICO
 // ==========================================
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(element => observer.observe(element));
-
 const ctx = document.getElementById('graficoCostos').getContext('2d');
 const b = document.getElementById('burocracia');
 const f = document.getElementById('friccion');
@@ -176,7 +199,7 @@ function update(){
                     {
                         label: 'Costos de Coordinación (Burocracia)',
                         data: d.datosCC,
-                        borderColor: '#e82127', // Rojo
+                        borderColor: '#e82127',
                         borderWidth: 2,
                         tension: 0.4,
                         pointRadius: 0
@@ -184,7 +207,7 @@ function update(){
                     {
                         label: 'Costos de Transacción (Mercado)',
                         data: d.datosCT,
-                        borderColor: '#2997ff', // Azul
+                        borderColor: '#2997ff',
                         borderWidth: 2,
                         tension: 0.4,
                         pointRadius: 0
@@ -192,7 +215,7 @@ function update(){
                     {
                         label: 'Costo Total (Punto Óptimo)',
                         data: d.datosTotal,
-                        borderColor: '#30d158', // Verde
+                        borderColor: '#30d158',
                         backgroundColor: 'rgba(48, 209, 88, 0.1)',
                         borderWidth: 4,
                         tension: 0.4,
