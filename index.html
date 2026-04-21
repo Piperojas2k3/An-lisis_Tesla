@@ -3,80 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decisión Estratégica: Tesla</title>
+    <title>Tesla: Integración Vertical</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<header class="hero">
-    <div class="hero-content">
-        <h1>¿QUÉ HARÍAS TÚ?</h1>
-        <p class="subtitle">Eres el CEO de Tesla</p>
-        <p class="tagline">¿Fabricar todo o depender de proveedores?</p>
-        <a href="#simulador" class="btn-scroll">Tomar decisión ↓</a>
-    </div>
-</header>
+    <header class="hero fade-in">
+        <div class="hero-content">
+            <h1>TESLA</h1>
+            <p class="subtitle">La Empresa como Sustituto del Mercado</p>
+            <p class="tagline">Análisis de Organización Industrial • Capítulo 2</p>
+            <a href="#analisis" class="btn-scroll">Explorar el Caso ↓</a>
+        </div>
+    </header>
 
-<main>
+    <main id="analisis">
+        
+        <p class="instruccion-clic">Haz clic en cada tarjeta para expandir la lectura interactiva</p>
 
-<section class="interactivo" id="simulador">
-    <h2>Simulador Estratégico</h2>
-    <p class="center">Toma una decisión y observa qué ocurre con los costos.</p>
+        <div id="overlay"></div>
 
-    <div class="escenarios-botones">
-        <button onclick="aplicarEscenario(180, 600)">Proveedores baratos</button>
-        <button onclick="aplicarEscenario(50, 1800)">Proveedores abusivos</button>
-        <button onclick="aplicarEscenario(200, 1500)">Caos interno</button>
-    </div>
+        <div class="grid-teoria">
+            <section class="tarjeta fade-in" data-index="0">
+                <h2>1. El problema de usar el mercado</h2>
+                <div class="contenido-tarjeta">
+                    <p>Desde la perspectiva teórica, las empresas existen para evitar los costos de usar el mercado abierto. Al principio, Tesla se enfrentó a un problema: usar el mercado para obtener piezas generaba altísimos 
+                        <span class="tooltip">Costos de Transacción
+                            <span class="tooltip-text">
+                                <strong>Definición:</strong> Dinero y tiempo gastado en usar externos.<br><br>
+                                <strong>Ejemplo:</strong> Pagar abogados para redactar contratos, buscar proveedores en China y vigilar que no te envíen piezas defectuosas.
+                            </span>
+                        </span>. 
+                    Buscar proveedores y redactar contratos inciertos era demasiado riesgoso. Por eso, Tesla se convirtió en una gran jerarquía interna que <strong>sustituye al mercado</strong>.</p>
+                    
+                    <div class="controles-tarjeta">
+                        <button class="btn-cerrar">Volver</button>
+                        <button class="btn-siguiente">Siguiente ➔</button>
+                    </div>
+                </div>
+            </section>
 
-    <div class="simulador-grid">
-        <div>
-            <label>Burocracia: <span id="val-burocracia">100</span></label>
-            <input type="range" id="burocracia" min="10" max="200" value="100">
+            <section class="tarjeta fade-in" data-index="1">
+                <h2>2. Determinantes de Gobernanza</h2>
+                <div class="contenido-tarjeta">
+                    <ul>
+                        <li><strong>Alta incertidumbre:</strong> El mercado eléctrico en 2010 era volátil. Como no se pueden hacer contratos perfectos para el futuro, Tesla eligió la coordinación interna.</li>
+                        <li><strong>Especificidad de activos:</strong> Las piezas de Tesla tienen alta 
+                            <span class="tooltip">Especificidad
+                                <span class="tooltip-text">
+                                    <strong>Definición:</strong> Cuando una inversión solo sirve para tu producto.<br><br>
+                                    <strong>Ejemplo:</strong> El software de conducción autónoma de Tesla no se puede instalar ni vender a un Toyota.
+                                </span>
+                            </span>.
+                        </li>
+                        <li><strong>Riesgo de Oportunismo:</strong> Integrar la producción eliminó el riesgo de 
+                            <span class="tooltip">Hold-up
+                                <span class="tooltip-text">
+                                    <strong>Definición:</strong> Cuando un proveedor te "toma de rehén" económicamente.<br><br>
+                                    <strong>Ejemplo:</strong> Un fabricante de baterías exclusivo te dobla el precio a mitad de año sabiendo que no tienes otra opción.
+                                </span>
+                            </span>.
+                        </li>
+                    </ul>
+                    <div class="controles-tarjeta">
+                        <button class="btn-cerrar">Volver</button>
+                        <button class="btn-siguiente">Siguiente ➔</button>
+                    </div>
+                </div>
+            </section>
 
-            <label>Problemas con proveedores: <span id="val-friccion">1000</span></label>
-            <input type="range" id="friccion" min="500" max="2000" value="1000">
+            <section class="tarjeta fade-in" data-index="2">
+                <h2>3. Grado de Integración Vertical</h2>
+                <div class="contenido-tarjeta">
+                    <ul>
+                        <li><strong>Hacia atrás:</strong> En sus Gigafactories, Tesla asumió el rol de 
+                            <span class="tooltip">Acreedor residual
+                                <span class="tooltip-text">
+                                    <strong>Definición:</strong> El dueño o accionista de la empresa.<br><br>
+                                    <strong>Ejemplo:</strong> Quien asume los riesgos del proyecto, paga los sueldos y se queda con las ganancias finales.
+                                </span>
+                            </span> fabricando motores y chips desde cero.
+                        </li>
+                        <li><strong>Hacia adelante:</strong> Eliminó a los concesionarios tradicionales, creando sus propias tiendas directas (venta online) y su propia red de carga mundial.</li>
+                    </ul>
+                    <div class="controles-tarjeta">
+                        <button class="btn-cerrar">Volver</button>
+                        <button class="btn-siguiente">Siguiente ➔</button>
+                    </div>
+                </div>
+            </section>
 
-            <div class="veredicto-caja" id="caja-veredicto">
-                <h3>DECISIÓN:</h3>
-                <p id="texto-veredicto"></p>
-                <small id="explicacion"></small>
+            <section class="tarjeta fade-in" data-index="3">
+                <h2>4. Límites a la Empresa</h2>
+                <div class="contenido-tarjeta">
+                    <p>El tamaño de Tesla disparó sus 
+                        <span class="tooltip">Costos de Coordinación
+                            <span class="tooltip-text">
+                                <strong>Definición:</strong> Los problemas administrativos por ser demasiado grandes.<br><br>
+                                <strong>Ejemplo:</strong> El "Infierno de Producción" de Elon Musk, donde la burocracia y los cuellos de botella casi quiebran la empresa al intentar ensamblar todo internamente.
+                            </span>
+                        </span>. 
+                    El <strong>punto óptimo de integración</strong> se alcanza donde el costo de administrar algo internamente se iguala al costo de comprarlo afuera.</p>
+                    <div class="controles-tarjeta">
+                        <button class="btn-cerrar">Volver</button>
+                        <button class="btn-siguiente">Ir al Simulador ↓</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="interactivo fade-in" id="simulador">
+            <h2>Simulador Estratégico</h2>
+            <p class="center" style="color: var(--muted); text-align: center;">Juega con las variables y descubre cómo se desplaza el punto óptimo.</p>
+        
+            <div class="escenarios-botones">
+                <button onclick="aplicarEscenario(180, 600)">Caso: Proveedores Baratos</button>
+                <button onclick="aplicarEscenario(50, 1800)">Caso: Proveedores Abusivos</button>
+                <button onclick="aplicarEscenario(200, 1500)">Caso: Caos Interno</button>
             </div>
-        </div>
+        
+            <div class="simulador-grid">
+                <div class="controles-panel">
+                    <div class="control-grupo">
+                        <label>Burocracia Interna: <span id="val-burocracia" class="badge">100</span></label>
+                        <input type="range" id="burocracia" min="10" max="200" value="100" step="10">
+                    </div>
+        
+                    <div class="control-grupo">
+                        <label>Fricción del Mercado: <span id="val-friccion" class="badge">1000</span></label>
+                        <input type="range" id="friccion" min="500" max="2000" value="1000" step="100">
+                    </div>
+        
+                    <div class="veredicto-caja" id="caja-veredicto">
+                        <h3>DECISIÓN DEL MODELO:</h3>
+                        <p id="texto-veredicto"></p>
+                        <small id="explicacion"></small>
+                    </div>
+                </div>
+        
+                <div class="grafico-contenedor">
+                    <canvas id="graficoCostos"></canvas>
+                    <p class="hint">💡 El punto más bajo de la curva verde es tu mejor decisión</p>
+                </div>
+            </div>
+        </section>
 
-        <div class="grafico-contenedor">
-            <canvas id="graficoCostos"></canvas>
-            <p class="hint">💡 El punto más bajo de la curva verde es la mejor decisión</p>
-        </div>
-    </div>
-</section>
+    </main>
 
-<section class="grid-teoria">
-    <div class="tarjeta">
-        <h2>El problema real</h2>
-        <p>Tesla enfrentaba altos <span class="tooltip" data-info="Tiempo y dinero en negociar y controlar proveedores">costos de transacción</span>.</p>
-    </div>
-
-    <div class="tarjeta">
-        <h2>El riesgo</h2>
-        <p>Los proveedores podían aprovecharse (<span class="tooltip" data-info="Te suben precios cuando dependes de ellos">Hold-up</span>).</p>
-    </div>
-
-    <div class="tarjeta">
-        <h2>La decisión</h2>
-        <p>Integrarse verticalmente y controlar su producción.</p>
-    </div>
-
-    <div class="tarjeta">
-        <h2>El límite</h2>
-        <p>Demasiado control genera <span class="tooltip" data-info="Problemas internos por tamaño">burocracia</span>.</p>
-    </div>
-</section>
-
-</main>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
