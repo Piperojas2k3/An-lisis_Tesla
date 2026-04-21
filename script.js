@@ -1,196 +1,143 @@
-/* Variables de color estilo Tesla (Dark Mode) */
-:root {
-    --bg-color: #0a0a0a;
-    --card-bg: #171717;
-    --text-main: #f5f5f7;
-    --text-muted: #a1a1a6;
-    --accent-red: #e82127;
-    --accent-blue: #2997ff;
-    --accent-green: #30d158;
+// --- 1. LÓGICA DE ANIMACIÓN AL HACER SCROLL ---
+// Esto hace que las tarjetas aparezcan suavemente al bajar la página
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(element => {
+    observer.observe(element);
+});
+
+// --- 2. LÓGICA DEL GRÁFICO INTERACTIVO ---
+const ctx = document.getElementById('graficoCostos').getContext('2d');
+const sliderBurocracia = document.getElementById('burocracia');
+const sliderFriccion = document.getElementById('friccion');
+const valBurocracia = document.getElementById('val-burocracia');
+const valFriccion = document.getElementById('val-friccion');
+
+let chart;
+
+// Colores Dark Mode para el gráfico
+const colorCC = 'rgba(232, 33, 39, 1)';   // Rojo Tesla
+const colorCT = 'rgba(41, 151, 255, 1)';  // Azul tecnológico
+const colorTotal = 'rgba(48, 209, 88, 1)'; // Verde neón
+
+function calcularDatos() {
+    const multBurocracia = parseInt(sliderBurocracia.value);
+    const baseFriccion = parseInt(sliderFriccion.value);
+    
+    const etiquetas = [];
+    const datosCC = []; 
+    const datosCT = []; 
+    const datosTotal = []; 
+
+    for (let n = 0; n <= 5; n += 0.5) {
+        etiquetas.push(n.toFixed(1));
+        let cc = 100 + (multBurocracia * Math.pow(n, 2));
+        let ct = Math.max(0, baseFriccion - (400 * n)); 
+        let total = cc + ct;
+
+        datosCC.push(cc);
+        datosCT.push(ct);
+        datosTotal.push(total);
+    }
+    return { etiquetas, datosCC, datosCT, datosTotal };
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
-    color: var(--text-main);
-    background-color: var(--bg-color);
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
+function actualizarGrafico() {
+    valBurocracia.textContent = sliderBurocracia.value;
+    valFriccion.textContent = sliderFriccion.value;
 
-/* Cabecera / Hero */
-.hero {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: radial-gradient(circle at center, #1f1f1f 0%, #0a0a0a 100%);
-    border-bottom: 1px solid #333;
-}
+    const datos = calcularDatos();
 
-.hero-content h1 {
-    font-size: 5rem;
-    letter-spacing: 10px;
-    margin: 0;
-    font-weight: 700;
-    text-transform: uppercase;
-}
+    if (chart) {
+        chart.data.labels = datos.etiquetas;
+        chart.data.datasets[0].data = datos.datosCC;
+        chart.data.datasets[1].data = datos.datosCT;
+        chart.data.datasets[2].data = datos.datosTotal;
+        chart.update();
+    } else {
+        // Configuración premium para el gráfico en modo oscuro
+        Chart.defaults.color = '#a1a1a6';
+        Chart.defaults.font.family = "'Montserrat', sans-serif";
 
-.subtitle {
-    font-size: 1.5rem;
-    color: var(--text-muted);
-    font-weight: 300;
-    margin-bottom: 5px;
-}
-
-.tagline {
-    font-size: 1rem;
-    color: var(--accent-red);
-    font-weight: 600;
-    margin-bottom: 40px;
-}
-
-.btn-scroll {
-    display: inline-block;
-    padding: 12px 24px;
-    border: 2px solid var(--text-main);
-    color: var(--text-main);
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.btn-scroll:hover {
-    background: var(--text-main);
-    color: var(--bg-color);
-}
-
-/* Layout Principal */
-main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 60px 20px;
-}
-
-.grid-teoria {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
-    margin-bottom: 60px;
-}
-
-@media (min-width: 768px) {
-    .grid-teoria {
-        grid-template-columns: 1fr 1fr;
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: datos.etiquetas,
+                datasets: [
+                    {
+                        label: 'C. Coordinación (Internos)',
+                        data: datos.datosCC,
+                        borderColor: colorCC,
+                        backgroundColor: colorCC,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'C. Transacción (Mercado)',
+                        data: datos.datosCT,
+                        borderColor: colorCT,
+                        backgroundColor: colorCT,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'Costo Total (Punto Óptimo)',
+                        data: datos.datosTotal,
+                        borderColor: colorTotal,
+                        backgroundColor: 'rgba(48, 209, 88, 0.1)',
+                        borderWidth: 4,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#000',
+                        pointBorderColor: colorTotal
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#333' },
+                        title: { display: true, text: 'Grado de Integración Vertical (n)', color: '#fff' }
+                    },
+                    y: {
+                        grid: { color: '#333' },
+                        title: { display: true, text: 'Costos ($)', color: '#fff' },
+                        min: 0
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#f5f5f7', padding: 20 }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#ccc',
+                        borderColor: '#444',
+                        borderWidth: 1
+                    }
+                }
+            }
+        });
     }
 }
 
-.tarjeta {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 12px;
-    border: 1px solid #2a2a2a;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
-}
-
-.tarjeta:hover {
-    transform: translateY(-5px);
-    border-color: #444;
-}
-
-h2 {
-    font-size: 1.3rem;
-    color: white;
-    border-bottom: 1px solid #333;
-    padding-bottom: 15px;
-    margin-top: 0;
-}
-
-p, li {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-}
-
-strong { color: white; }
-
-/* Sección Interactiva */
-.interactivo {
-    background: var(--card-bg);
-    padding: 40px;
-    border-radius: 16px;
-    border: 1px solid #333;
-    text-align: center;
-}
-
-.controles-panel {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin: 30px 0;
-    justify-content: center;
-}
-
-.control-grupo {
-    flex: 1;
-    min-width: 250px;
-    text-align: left;
-}
-
-.badge {
-    background: #333;
-    padding: 4px 10px;
-    border-radius: 20px;
-    color: white;
-    font-size: 0.9rem;
-    float: right;
-}
-
-/* Deslizadores personalizados */
-input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
-    background: transparent;
-    margin-top: 15px;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: var(--text-main);
-    cursor: pointer;
-    margin-top: -8px;
-    box-shadow: 0 0 10px rgba(255,255,255,0.5);
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 4px;
-    cursor: pointer;
-    background: #444;
-    border-radius: 2px;
-}
-
-.grafico-contenedor {
-    position: relative;
-    height: 450px;
-    width: 100%;
-    margin-top: 20px;
-}
-
-/* Clases de Animación (Scroll Reveal) */
-.fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+sliderBurocracia.addEventListener('input', actualizarGrafico);
+sliderFriccion.addEventListener('input', actualizarGrafico);
+actualizarGrafico();
