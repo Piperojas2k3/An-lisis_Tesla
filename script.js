@@ -1,39 +1,35 @@
-// --- 1. LÓGICA DE ANIMACIÓN AL HACER SCROLL ---
-// Esto hace que las tarjetas aparezcan suavemente al bajar la página
+// Animaciones de scroll
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
     });
 }, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(element => observer.observe(element));
 
-document.querySelectorAll('.fade-in').forEach(element => {
-    observer.observe(element);
-});
-
-// --- 2. LÓGICA DEL GRÁFICO INTERACTIVO ---
+// Configuración del gráfico
 const ctx = document.getElementById('graficoCostos').getContext('2d');
 const sliderBurocracia = document.getElementById('burocracia');
 const sliderFriccion = document.getElementById('friccion');
 const valBurocracia = document.getElementById('val-burocracia');
 const valFriccion = document.getElementById('val-friccion');
+const textoVeredicto = document.getElementById('texto-veredicto');
+const cajaVeredicto = document.getElementById('caja-veredicto');
 
 let chart;
 
-// Colores Dark Mode para el gráfico
-const colorCC = 'rgba(232, 33, 39, 1)';   // Rojo Tesla
-const colorCT = 'rgba(41, 151, 255, 1)';  // Azul tecnológico
-const colorTotal = 'rgba(48, 209, 88, 1)'; // Verde neón
+// Botones de escenarios automáticos
+window.aplicarEscenario = function(burocracia, friccion) {
+    sliderBurocracia.value = burocracia;
+    sliderFriccion.value = friccion;
+    actualizarGrafico();
+}
 
 function calcularDatos() {
     const multBurocracia = parseInt(sliderBurocracia.value);
     const baseFriccion = parseInt(sliderFriccion.value);
-    
-    const etiquetas = [];
-    const datosCC = []; 
-    const datosCT = []; 
-    const datosTotal = []; 
+    const etiquetas = [], datosCC = [], datosCT = [], datosTotal = []; 
+    let costoMinimo = Infinity;
+    let nOptimo = 0;
 
     for (let n = 0; n <= 5; n += 0.5) {
         etiquetas.push(n.toFixed(1));
@@ -41,11 +37,15 @@ function calcularDatos() {
         let ct = Math.max(0, baseFriccion - (400 * n)); 
         let total = cc + ct;
 
-        datosCC.push(cc);
-        datosCT.push(ct);
-        datosTotal.push(total);
+        datosCC.push(cc); datosCT.push(ct); datosTotal.push(total);
+
+        // Encontrar el punto más bajo automáticamente
+        if (total < costoMinimo) {
+            costoMinimo = total;
+            nOptimo = n;
+        }
     }
-    return { etiquetas, datosCC, datosCT, datosTotal };
+    return { etiquetas, datosCC, datosCT, datosTotal, nOptimo };
 }
 
 function actualizarGrafico() {
@@ -54,6 +54,21 @@ function actualizarGrafico() {
 
     const datos = calcularDatos();
 
+    // Actualizar el Veredicto para la persona que lee
+    if (datos.nOptimo <= 1.5) {
+        textoVeredicto.textContent = "Te conviene COMPRAR: Usa proveedores externos, tu nivel de integración debe ser bajo.";
+        textoVeredicto.style.color = "var(--accent-blue)";
+        cajaVeredicto.style.borderLeftColor = "var(--accent-blue)";
+    } else if (datos.nOptimo >= 3.5) {
+        textoVeredicto.textContent = "Te conviene FABRICAR (Caso Tesla): Integra procesos, el mercado es muy riesgoso.";
+        textoVeredicto.style.color = "var(--accent-red)";
+        cajaVeredicto.style.borderLeftColor = "var(--accent-red)";
+    } else {
+        textoVeredicto.textContent = "Punto Intermedio: Fabrica lo clave, terceriza lo secundario.";
+        textoVeredicto.style.color = "var(--accent-green)";
+        cajaVeredicto.style.borderLeftColor = "var(--accent-green)";
+    }
+
     if (chart) {
         chart.data.labels = datos.etiquetas;
         chart.data.datasets[0].data = datos.datosCC;
@@ -61,7 +76,6 @@ function actualizarGrafico() {
         chart.data.datasets[2].data = datos.datosTotal;
         chart.update();
     } else {
-        // Configuración premium para el gráfico en modo oscuro
         Chart.defaults.color = '#a1a1a6';
         Chart.defaults.font.family = "'Montserrat', sans-serif";
 
@@ -70,68 +84,16 @@ function actualizarGrafico() {
             data: {
                 labels: datos.etiquetas,
                 datasets: [
-                    {
-                        label: 'C. Coordinación (Internos)',
-                        data: datos.datosCC,
-                        borderColor: colorCC,
-                        backgroundColor: colorCC,
-                        borderWidth: 2,
-                        tension: 0.4,
-                        pointRadius: 3
-                    },
-                    {
-                        label: 'C. Transacción (Mercado)',
-                        data: datos.datosCT,
-                        borderColor: colorCT,
-                        backgroundColor: colorCT,
-                        borderWidth: 2,
-                        tension: 0.4,
-                        pointRadius: 3
-                    },
-                    {
-                        label: 'Costo Total (Punto Óptimo)',
-                        data: datos.datosTotal,
-                        borderColor: colorTotal,
-                        backgroundColor: 'rgba(48, 209, 88, 0.1)',
-                        borderWidth: 4,
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 5,
-                        pointBackgroundColor: '#000',
-                        pointBorderColor: colorTotal
-                    }
+                    { label: 'C. Coordinación (Burocracia)', data: datos.datosCC, borderColor: '#e82127', tension: 0.4 },
+                    { label: 'C. Transacción (Proveedores)', data: datos.datosCT, borderColor: '#2997ff', tension: 0.4 },
+                    { label: 'Costo Total', data: datos.datosTotal, borderColor: '#30d158', backgroundColor: 'rgba(48, 209, 88, 0.1)', borderWidth: 4, tension: 0.4, fill: true }
                 ]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
+                responsive: true, maintainAspectRatio: false,
                 scales: {
-                    x: {
-                        grid: { color: '#333' },
-                        title: { display: true, text: 'Grado de Integración Vertical (n)', color: '#fff' }
-                    },
-                    y: {
-                        grid: { color: '#333' },
-                        title: { display: true, text: 'Costos ($)', color: '#fff' },
-                        min: 0
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { color: '#f5f5f7', padding: 20 }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        titleColor: '#fff',
-                        bodyColor: '#ccc',
-                        borderColor: '#444',
-                        borderWidth: 1
-                    }
+                    x: { title: { display: true, text: 'Grado de Integración (0 = Comprar todo | 5 = Fabricar todo)', color: '#fff' } },
+                    y: { min: 0 }
                 }
             }
         });
