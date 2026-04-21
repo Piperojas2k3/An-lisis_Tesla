@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Integración Vertical: Caso Tesla</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Análisis de Tesla: La Empresa como Sustituto del Mercado</h1>
+        <p>Proyecto de Organización Industrial - Análisis del Capítulo 2</p>
+    </header>
+
+    <main>
+        <section class="teoria">
+            <h2>1. Contexto Teórico: El problema de usar el mercado</h2>
+            <p>Desde la perspectiva de Coase y Williamson, las empresas existen para evitar los costos asociados a utilizar el sistema de precios del mercado abierto. En la industria automotriz tradicional, las marcas externalizan hasta el 80% de sus componentes, confiando en la eficiencia del mercado. Sin embargo, en sus inicios, Tesla se enfrentó a un escenario distinto: usar el mercado para obtener piezas de vehículos eléctricos generaba altísimos <strong>Costos de Transacción</strong>. Buscar proveedores capacitados, redactar contratos para tecnología incipiente y vigilar el cumplimiento de estándares resultaba demasiado riesgoso. Por lo tanto, Tesla se consolidó como una gran jerarquía interna que <strong>sustituye al mercado</strong>.</p>
+
+            <h2>2. Determinantes de Gobernanza en Tesla</h2>
+            <p>La decisión de Tesla de fabricar internamente está dictada por tres determinantes de gobernanza fundamentales:</p>
+            <ul>
+                <li><strong>Alta incertidumbre:</strong> El mercado de los vehículos eléctricos a principios de 2010 era volátil. Dado que es imposible que un contrato abarque todas las contingencias tecnológicas futuras, Tesla prefirió la coordinación interna.</li>
+                <li><strong>Especificidad de los activos:</strong> Los componentes de un Tesla (celdas de batería, software) tienen un altísimo grado de especificidad. Su valor es máximo dentro del ecosistema Tesla, pero de poco uso para ensamblar vehículos tradicionales.</li>
+                <li><strong>Riesgo de Oportunismo (Hold-up):</strong> Al requerir inversiones específicas, Tesla quedaba vulnerable a que proveedores externos se comportaran de forma oportunista. Integrar la producción eliminó este riesgo.</li>
+            </ul>
+
+            <h2>3. Grado de Integración Vertical</h2>
+            <p>Para minimizar las fricciones de mercado, Tesla adoptó un grado de integración casi extremo:</p>
+            <ul>
+                <li><strong>Hacia atrás:</strong> A través de sus Gigafactories, asumió el rol de acreedor residual fabricando motores, chips y electrónica de potencia.</li>
+                <li><strong>Hacia adelante:</strong> Eliminó a los concesionarios tradicionales, estableciendo ventas directas al consumidor y su propia red de Superchargers.</li>
+            </ul>
+
+            <h2>4. Límites a la Empresa: Los Costos de Coordinación</h2>
+            <p>El aumento en el tamaño organizacional de Tesla disparó sus <strong>Costos de Coordinación</strong>. Administrar una cadena de mando desde la fundición del chasis hasta la entrega genera una enorme complejidad burocrática (evidenciada en su histórico "infierno de producción"). El <strong>punto óptimo de integración</strong> se alcanza donde el costo marginal de administrar un proceso internamente se iguala al costo de tercerizarlo.</p>
+        </section>
+
+        <hr>
+
+        <section class="interactivo">
+            <h2>Visualización: Punto Óptimo de Integración</h2>
+            <p>Ajusta los valores para observar cómo cambian los costos y se desplaza el punto óptimo (el nivel más bajo de la curva verde).</p>
+            
+            <div class="controles">
+                <div class="control-grupo">
+                    <label for="burocracia">Burocracia Interna (Afecta Costos de Coordinación): <span id="val-burocracia">100</span></label>
+                    <input type="range" id="burocracia" min="10" max="200" value="100" step="10">
+                </div>
+                <div class="control-grupo">
+                    <label for="friccion">Fricción del Mercado (Afecta Costos de Transacción): <span id="val-friccion">1000</span></label>
+                    <input type="range" id="friccion" min="500" max="2000" value="1000" step="100">
+                </div>
+            </div>
+
+            <div class="grafico-contenedor">
+                <canvas id="graficoCostos"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
