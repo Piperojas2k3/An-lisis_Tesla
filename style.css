@@ -62,15 +62,46 @@ body { font-family: 'Montserrat', sans-serif; color: var(--text); margin: 0; bac
 
 /* 3. SIMULADOR */
 .interactivo { background: rgba(0,0,0,0.6); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+
+/* Diseño de botones actualizado según la imagen */
+.escenarios-botones { display: flex; gap: 0; justify-content: flex-start; margin-bottom: 25px; }
+.escenarios-botones button {
+    background: #f5f5f7;
+    border: 1px solid #ccc;
+    color: #000;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+.escenarios-botones button:hover { background: #ddd; }
+.escenarios-botones button:first-child { border-radius: 4px 0 0 4px; }
+.escenarios-botones button:last-child { border-radius: 0 4px 4px 0; }
+
 .simulador-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
 @media(min-width: 800px) { .simulador-grid { grid-template-columns: 300px 1fr; } }
 
 .control-grupo { margin-bottom: 20px; }
 .badge { background: #333; padding: 4px 10px; border-radius: 10px; float: right; }
-input[type=range] { width: 100%; cursor: pointer; }
 
-.veredicto-caja { background: rgba(0,0,0,0.4); border-left: 4px solid var(--green); padding: 15px; border-radius: 10px; }
-.grafico-contenedor { position: relative; height: 300px; width: 100%; }
+/* Barras deslizadoras rojas como en la imagen */
+input[type=range] { width: 100%; cursor: pointer; accent-color: var(--red); }
+
+.veredicto-caja { background: rgba(0,0,0,0.4); border-left: 4px solid var(--green); padding: 15px; border-radius: 10px; margin-top: 25px;}
+#explicacion { color: var(--muted); font-size: 0.9rem; display: block; margin-top: 5px; line-height: 1.4;}
+
+/* Fondo diferenciado para el gráfico */
+.grafico-contenedor { 
+    position: relative; 
+    height: 350px; 
+    width: 100%; 
+    background: rgba(20, 20, 20, 0.95); /* Gris muy oscuro, no negro puro */
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 15px;
+    box-sizing: border-box;
+}
 
 /* MODALES */
 .fondo-oscuro { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 3000; opacity: 0; pointer-events: none; transition: 0.4s; backdrop-filter: blur(5px); }
@@ -83,10 +114,11 @@ input[type=range] { width: 100%; cursor: pointer; }
 }
 .ventana-modal.activa { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
 .ventana-modal h2 { margin-top: 0; border-bottom: 2px solid var(--blue); padding-bottom: 10px; }
+.caja-ejemplo { background: rgba(48, 209, 88, 0.1); border-left: 4px solid var(--green); padding: 15px; border-radius: 0 8px 8px 0; margin-top: 20px; font-size: 0.95rem; }
 
 .btn-cerrar-modal { background: var(--red); border: none; color: white; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; margin-top: 20px; display: block; margin-left: auto; }
 
 /* TOOLTIPS */
 .tooltip { color: var(--blue); border-bottom: 1px dashed var(--blue); cursor: help; position: relative; font-weight: bold; }
-.tooltip .tooltip-text { visibility: hidden; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: #222; padding: 15px; border-radius: 10px; width: 200px; font-size: 0.8rem; box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid #444; z-index: 10; opacity: 0; transition: 0.3s; }
+.tooltip .tooltip-text { visibility: hidden; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: #222; color: white; padding: 15px; border-radius: 10px; width: 220px; font-size: 0.85rem; font-weight: normal; box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid #444; z-index: 10; opacity: 0; transition: 0.3s; line-height: 1.4;}
 .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
