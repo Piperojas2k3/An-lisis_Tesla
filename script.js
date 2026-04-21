@@ -1,4 +1,98 @@
-// --- ANIMACIONES DE SCROLL ---
+// ==========================================
+// 1. MOTOR 3D (SCROLLYTELLING)
+// ==========================================
+const canvas3D = document.getElementById('bg-canvas');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas: canvas3D, alpha: true, antialias: true });
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+camera.position.z = 15;
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0xffffff, 1);
+pointLight.position.set(10, 10, 10);
+scene.add(pointLight);
+
+const particles = [];
+const geometry = new THREE.IcosahedronGeometry(0.5, 0);
+
+for (let i = 0; i < 70; i++) {
+    const material = new THREE.MeshPhysicalMaterial({ color: 0x2997ff, metalness: 0.6, roughness: 0.2, flatShading: true });
+    const mesh = new THREE.Mesh(geometry, material);
+    
+    const mX = (Math.random() - 0.5) * 40;
+    const mY = (Math.random() - 0.5) * 40;
+    const mZ = (Math.random() - 0.5) * 20;
+    
+    const phi = Math.acos(-1 + (2 * i) / 70);
+    const theta = Math.sqrt(70 * Math.PI) * phi;
+    const r = 4; 
+    const iX = r * Math.cos(theta) * Math.sin(phi);
+    const iY = r * Math.sin(theta) * Math.sin(phi);
+    const iZ = r * Math.cos(phi);
+
+    mesh.position.set(mX, mY, mZ);
+    scene.add(mesh);
+    particles.push({ mesh, mX, mY, mZ, iX, iY, iZ });
+}
+
+let scrollPercent = 0;
+document.body.onscroll = () => {
+    scrollPercent = document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+};
+
+function animate3D() {
+    requestAnimationFrame(animate3D);
+    scene.rotation.y += 0.002;
+    scene.rotation.x += 0.001;
+
+    particles.forEach((p, index) => {
+        let targetX, targetY, targetZ;
+        let targetColor = new THREE.Color();
+
+        if(scrollPercent < 0.2) {
+            targetX = p.mX; targetY = p.mY; targetZ = p.mZ;
+            targetColor.setHex(0x2997ff);
+        } else if (scrollPercent < 0.45) {
+            let factor = (scrollPercent - 0.2) * 4;
+            targetX = p.mX * (1 - factor*0.8) + Math.random()*0.5; 
+            targetY = p.mY * (1 - factor*0.8) + Math.random()*0.5; 
+            targetZ = p.mZ * (1 - factor*0.8);
+            targetColor.setHex(0xe82127);
+        } else if (scrollPercent < 0.75) {
+            targetX = p.iX; targetY = p.iY; targetZ = p.iZ;
+            targetColor.setHex(0x30d158);
+        } else {
+            let factor = (scrollPercent - 0.75) * 4;
+            targetX = p.iX * (1 + factor * 0.8) + Math.sin(Date.now()*0.005 + index)*0.5;
+            targetY = p.iY * (1 + factor * 0.8) + Math.cos(Date.now()*0.005 + index)*0.5;
+            targetZ = p.iZ * (1 + factor * 0.8);
+            targetColor.setHex(0xff9900);
+        }
+
+        p.mesh.position.x += (targetX - p.mesh.position.x) * 0.05;
+        p.mesh.position.y += (targetY - p.mesh.position.y) * 0.05;
+        p.mesh.position.z += (targetZ - p.mesh.position.z) * 0.05;
+        p.mesh.material.color.lerp(targetColor, 0.05);
+    });
+
+    renderer.render(scene, camera);
+}
+animate3D();
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+
+// ==========================================
+// 2. LÓGICA UI Y GRÁFICO (RESTAURADO A 3 LÍNEAS)
+// ==========================================
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -6,59 +100,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.fade-in').forEach(element => observer.observe(element));
 
-// --- LÓGICA DE TARJETAS EXPANSIBLES ---
-const tarjetas = document.querySelectorAll('.tarjeta');
-const overlay = document.getElementById('overlay');
-
-function abrirTarjeta(index) {
-    // Cerramos todas primero para evitar errores
-    tarjetas.forEach(t => t.classList.remove('expandida'));
-    // Abrimos la seleccionada
-    tarjetas[index].classList.add('expandida');
-    overlay.classList.add('activo');
-}
-
-function cerrarTarjetas() {
-    tarjetas.forEach(t => t.classList.remove('expandida'));
-    overlay.classList.remove('activo');
-}
-
-// Evento: Clic en la tarjeta para abrirla
-tarjetas.forEach((tarjeta, index) => {
-    tarjeta.addEventListener('click', function() {
-        if (!this.classList.contains('expandida')) {
-            abrirTarjeta(index);
-        }
-    });
-});
-
-// Evento: Clic fuera de la tarjeta para cerrar (en el fondo oscuro)
-overlay.addEventListener('click', cerrarTarjetas);
-
-// Botones internos de las tarjetas
-document.querySelectorAll('.btn-cerrar').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Evita que la tarjeta se vuelva a abrir
-        cerrarTarjetas();
-    });
-});
-
-document.querySelectorAll('.btn-siguiente').forEach((btn, index) => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        
-        // Si es la última tarjeta, vamos al simulador
-        if (index === tarjetas.length - 1) {
-            cerrarTarjetas();
-            document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' });
-        } else {
-            // Pasamos a la siguiente tarjeta
-            abrirTarjeta(index + 1);
-        }
-    });
-});
-
-// --- LÓGICA DEL SIMULADOR Y GRÁFICO ---
 const ctx = document.getElementById('graficoCostos').getContext('2d');
 const b = document.getElementById('burocracia');
 const f = document.getElementById('friccion');
@@ -77,20 +118,22 @@ window.aplicarEscenario = function(buro, fric){
 }
 
 function calc(){
-    let labels=[], total=[];
+    let labels=[], datosCC=[], datosCT=[], datosTotal=[];
     let min=Infinity, opt=0;
 
     for(let x=0; x<=5; x+=0.5){
         let cc = 100 + b.value * (x * x);
         let ct = Math.max(0, f.value - (400 * x)); 
         let t = cc + ct;
-
+        
         labels.push(x.toFixed(1));
-        total.push(t);
-
+        datosCC.push(cc);
+        datosCT.push(ct);
+        datosTotal.push(t);
+        
         if(t < min){ min = t; opt = x; }
     }
-    return {labels, total, opt};
+    return {labels, datosCC, datosCT, datosTotal, opt};
 }
 
 function update(){
@@ -102,55 +145,69 @@ function update(){
     if(d.opt < 1.5){
         txt.textContent = "COMPRAR";
         txt.style.color = "var(--blue)";
-        exp.textContent = "Los proveedores son eficientes y baratos. No te desgastes fabricando tú mismo.";
+        exp.textContent = "Los proveedores son eficientes. No te desgastes fabricando tú mismo.";
         caja.style.borderLeftColor = "var(--blue)";
-    }
-    else if(d.opt > 3.5){
+    } else if(d.opt > 3.5){
         txt.textContent = "FABRICAR (Caso Tesla)";
         txt.style.color = "var(--red)";
-        exp.textContent = "El mercado es muy riesgoso y abusivo. Debes integrar procesos y controlar tu fábrica.";
+        exp.textContent = "El mercado es muy riesgoso. Debes integrar procesos y controlar tu fábrica.";
         caja.style.borderLeftColor = "var(--red)";
-    }
-    else{
+    } else {
         txt.textContent = "MODELO MIXTO";
         txt.style.color = "var(--green)";
         exp.textContent = "Equilibrio perfecto. Fabrica las piezas clave y terceriza lo secundario.";
         caja.style.borderLeftColor = "var(--green)";
     }
 
-    caja.style.transform = "scale(1.02)";
-    setTimeout(() => caja.style.transform = "scale(1)", 200);
-
     if(chart){
         chart.data.labels = d.labels;
-        chart.data.datasets[0].data = d.total;
+        chart.data.datasets[0].data = d.datosCC;
+        chart.data.datasets[1].data = d.datosCT;
+        chart.data.datasets[2].data = d.datosTotal;
         chart.update();
     } else {
         Chart.defaults.color = '#a1a1a6';
         Chart.defaults.font.family = "'Montserrat', sans-serif";
-
         chart = new Chart(ctx,{
             type:'line',
             data:{
                 labels: d.labels,
-                datasets:[{
-                    label: 'Costo Total de la Empresa',
-                    data: d.total,
-                    borderColor: '#30d158',
-                    backgroundColor: 'rgba(48, 209, 88, 0.1)',
-                    borderWidth: 4,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#000',
-                    pointBorderColor: '#30d158',
-                    pointRadius: 4
-                }]
+                datasets:[
+                    {
+                        label: 'Costos de Coordinación (Burocracia)',
+                        data: d.datosCC,
+                        borderColor: '#e82127', // Rojo
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Costos de Transacción (Mercado)',
+                        data: d.datosCT,
+                        borderColor: '#2997ff', // Azul
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Costo Total (Punto Óptimo)',
+                        data: d.datosTotal,
+                        borderColor: '#30d158', // Verde
+                        backgroundColor: 'rgba(48, 209, 88, 0.1)',
+                        borderWidth: 4,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#000',
+                        pointBorderColor: '#30d158',
+                        pointRadius: 4
+                    }
+                ]
             },
             options:{
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { title: { display: true, text: 'Grado de Integración (0 = Comprar | 5 = Fabricar todo)'} },
+                    x: { title: { display: true, text: 'Grado de Integración Vertical (n)'} },
                     y: { min: 0 }
                 }
             }
@@ -160,5 +217,4 @@ function update(){
 
 b.addEventListener('input', update);
 f.addEventListener('input', update);
-
 update();
