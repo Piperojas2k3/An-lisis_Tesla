@@ -13,82 +13,45 @@
 
     <canvas id="bg-canvas"></canvas>
 
-    <header class="hero fade-in">
-        <div class="hero-content">
+    <div id="cortina" class="pantalla-cortina">
+        <div class="cortina-contenido">
             <h1>TESLA</h1>
             <p class="subtitle">La Empresa como Sustituto del Mercado</p>
             <p class="tagline">Análisis de Organización Industrial • Capítulo 2</p>
-            <a href="#analisis" class="btn-scroll">Explorar el Caso ↓</a>
+            <button id="btn-ingresar" class="btn-gigante">INGRESAR AL ANÁLISIS</button>
         </div>
-    </header>
+    </div>
 
     <main id="analisis">
-        
+        <p class="instruccion-clic">Selecciona un tema para expandir la lectura</p>
+
         <div class="grid-teoria">
-            <section class="tarjeta fade-in">
+            <section class="tarjeta" onclick="abrirModal('modal-1')">
                 <h2>1. El problema de usar el mercado</h2>
-                <p>Al principio, Tesla se enfrentó a un problema: usar el mercado para obtener piezas generaba altísimos 
-                    <span class="tooltip">Costos de Transacción
-                        <span class="tooltip-text">
-                            <strong>Definición:</strong> Dinero y tiempo gastado en usar externos.<br><br>
-                            <strong>Ejemplo:</strong> Negociar contratos, buscar proveedores y vigilar estándares de calidad.
-                        </span>
-                    </span>. 
-                Buscar proveedores era demasiado riesgoso. Por eso, Tesla se convirtió en una jerarquía interna que <strong>sustituye al mercado</strong>.</p>
+                <p>Haz clic para leer sobre la empresa como sustituto del mercado y los Costos de Transacción.</p>
             </section>
 
-            <section class="tarjeta fade-in">
+            <section class="tarjeta" onclick="abrirModal('modal-2')">
                 <h2>2. Determinantes de Gobernanza</h2>
-                <ul>
-                    <li><strong>Alta incertidumbre:</strong> El mercado eléctrico en 2010 era volátil.</li>
-                    <li><strong>Especificidad de activos:</strong> Las piezas de Tesla tienen alta 
-                        <span class="tooltip">Especificidad
-                            <span class="tooltip-text">
-                                <strong>Definición:</strong> Cuando una inversión solo sirve para tu producto.<br><br>
-                                <strong>Ejemplo:</strong> El software de Tesla no se puede instalar en un Toyota.
-                            </span>
-                        </span>.
-                    </li>
-                    <li><strong>Riesgo de Oportunismo:</strong> Integrar la producción eliminó el riesgo de 
-                        <span class="tooltip">Hold-up
-                            <span class="tooltip-text">
-                                <strong>Definición:</strong> Cuando un proveedor te "toma de rehén".<br><br>
-                                <strong>Ejemplo:</strong> Un fabricante de baterías te dobla el precio a mitad de año.
-                            </span>
-                        </span>.
-                    </li>
-                </ul>
+                <p>Haz clic para leer sobre Incertidumbre, Especificidad y el Riesgo de Oportunismo.</p>
             </section>
 
-            <section class="tarjeta fade-in">
+            <section class="tarjeta" onclick="abrirModal('modal-3')">
                 <h2>3. Grado de Integración Vertical</h2>
-                <ul>
-                    <li><strong>Hacia atrás:</strong> En sus Gigafactories, Tesla asumió el rol de 
-                        <span class="tooltip">Acreedor residual
-                            <span class="tooltip-text">
-                                <strong>Definición:</strong> El dueño o accionista.<br><br>
-                                <strong>Ejemplo:</strong> Quien asume los riesgos del proyecto y se queda con las ganancias.
-                            </span>
-                        </span> fabricando motores y chips desde cero.
-                    </li>
-                    <li><strong>Hacia adelante:</strong> Eliminó a los concesionarios tradicionales, creando tiendas directas.</li>
-                </ul>
+                <p>Haz clic para descubrir cómo Tesla integró sus Gigafactories y eliminó concesionarios.</p>
             </section>
 
-            <section class="tarjeta fade-in">
+            <section class="tarjeta" onclick="abrirModal('modal-4')">
                 <h2>4. Límites a la Empresa</h2>
-                <p>El tamaño de Tesla disparó sus 
-                    <span class="tooltip">Costos de Coordinación
-                        <span class="tooltip-text">
-                            <strong>Definición:</strong> Problemas administrativos por ser demasiado grandes.<br><br>
-                            <strong>Ejemplo:</strong> El "Infierno de Producción" por cuellos de botella internos.
-                        </span>
-                    </span>. 
-                El <strong>punto óptimo</strong> se alcanza donde el costo de administrar algo internamente se iguala al costo de comprarlo afuera.</p>
+                <p>Haz clic para analizar los Costos de Coordinación y el Punto Óptimo del modelo.</p>
             </section>
         </div>
 
-        <section class="interactivo fade-in" id="simulador">
+        <div class="contenedor-boton-bajar">
+            <a href="#simulador" class="btn-bajar">Ir al Simulador Estratégico ↓</a>
+        </div>
+
+        <section class="interactivo" id="simulador">
             <h2>Simulador Estratégico</h2>
             <p class="center" style="color: var(--muted); text-align: center;">Observa cómo los costos de Burocracia (Rojo) y Proveedores (Azul) definen el Total (Verde).</p>
         
@@ -104,12 +67,10 @@
                         <label>Burocracia Interna (Curva Roja): <span id="val-burocracia" class="badge">100</span></label>
                         <input type="range" id="burocracia" min="10" max="200" value="100" step="10">
                     </div>
-        
                     <div class="control-grupo">
                         <label>Fricción del Mercado (Curva Azul): <span id="val-friccion" class="badge">1000</span></label>
                         <input type="range" id="friccion" min="500" max="2000" value="1000" step="100">
                     </div>
-        
                     <div class="veredicto-caja" id="caja-veredicto">
                         <h3>DECISIÓN DEL MODELO:</h3>
                         <p id="texto-veredicto"></p>
@@ -123,6 +84,84 @@
             </div>
         </section>
     </main>
+
+    <div id="fondo-modal" class="fondo-oscuro" onclick="cerrarModal()"></div>
+
+    <div id="modal-1" class="ventana-modal">
+        <h2>La Empresa como Sustituto del Mercado</h2>
+        <div class="contenido-texto">
+            <p>A partir del planteamiento original de Ronald Coase, la empresa deja de ser concebida como una simple "caja negra" ingenieril y se entiende como una estructura jerárquica que surge por una razón fundamental: <strong>evitar los costos de usar el sistema de precios</strong>.</p>
+            <p>En sus inicios, Tesla enfrentó un mercado de vehículos eléctricos inmaduro. Depender de proveedores externos generaba altísimos 
+                <span class="tooltip">Costos de Transacción
+                    <span class="tooltip-text"><strong>Definición:</strong> Dinero y tiempo gastado en usar externos.<br><br><strong>Ejemplo:</strong> Pagar abogados para redactar contratos, buscar proveedores y vigilar estándares de calidad.</span>
+                </span>. 
+            Para reducir esta fricción, Tesla internalizó sus procesos, sustituyendo las transacciones del mercado por una cadena de mando interna.</p>
+            
+            <div class="caja-ejemplo">
+                <strong>💡 Ejemplo General:</strong> En lugar de ir todos los días al mercado a buscar un ingeniero distinto para que programe el software del auto, Tesla contrata a su propio equipo de desarrollo interno con un sueldo fijo, ahorrando tiempo y negociaciones diarias.
+            </div>
+        </div>
+        <button class="btn-regresar" onclick="cerrarModal()">⬅ Regresar</button>
+    </div>
+
+    <div id="modal-2" class="ventana-modal">
+        <h2>Determinantes de Gobernanza (Williamson)</h2>
+        <div class="contenido-texto">
+            <p>La decisión de Tesla de operar internamente se explica por tres factores de riesgo en sus contratos:</p>
+            <ul>
+                <li><strong>Incertidumbre:</strong> Dada la innovación constante en 2010, era imposible redactar contratos que cubrieran todas las contingencias tecnológicas futuras.</li>
+                <li><strong>Especificidad de Activos:</strong> Las baterías y el software tienen alta 
+                    <span class="tooltip">Especificidad
+                        <span class="tooltip-text"><strong>Definición:</strong> Cuando una inversión solo sirve para tu producto.<br><br><strong>Ejemplo:</strong> El software autónomo de Tesla no se puede instalar en un Toyota.</span>
+                    </span>. Su valor es máximo dentro de Tesla, pero casi nulo para una marca tradicional.
+                </li>
+                <li><strong>Riesgo de Oportunismo:</strong> Al requerir inversiones tan específicas, Tesla quedaba vulnerable al 
+                    <span class="tooltip">Hold-up
+                        <span class="tooltip-text"><strong>Definición:</strong> Cuando un proveedor te "toma de rehén" económicamente.<br><br><strong>Ejemplo:</strong> Exigir un pago del doble a mitad de la producción sabiendo que no tienes alternativa.</span>
+                    </span>.
+                </li>
+            </ul>
+            <div class="caja-ejemplo">
+                <strong>💡 Ejemplo General:</strong> Si un fabricante exclusivo de pantallas decide duplicar el precio justo antes del lanzamiento del Model S, Tesla estaría acorralado. Integrar la producción anula esa amenaza externa.
+            </div>
+        </div>
+        <button class="btn-regresar" onclick="cerrarModal()">⬅ Regresar</button>
+    </div>
+
+    <div id="modal-3" class="ventana-modal">
+        <h2>Grado de Integración Vertical</h2>
+        <div class="contenido-texto">
+            <p>Para blindarse contra el oportunismo, Tesla adoptó un modelo de alta integración vertical, donde la empresa se consolida como el 
+                <span class="tooltip">Acreedor residual
+                    <span class="tooltip-text"><strong>Definición:</strong> El dueño que asume los riesgos del negocio.<br><br><strong>Ejemplo:</strong> Quien paga los costos fijos y se queda con las utilidades finales si el proyecto tiene éxito.</span>
+                </span> que coordina los recursos:
+            </p>
+            <ul>
+                <li><strong>Integración hacia atrás:</strong> A través de sus Gigafactories, Tesla tomó el control de la fabricación de componentes críticos (motores, celdas de batería), priorizando la eficiencia de agencia (reducir fricciones) sobre la eficiencia técnica de un externo.</li>
+                <li><strong>Integración hacia adelante:</strong> Tesla decidió no compartir sus márgenes ni su información con terceros, creando su propia red de Superchargers y ventas directas.</li>
+            </ul>
+            <div class="caja-ejemplo">
+                <strong>💡 Ejemplo General:</strong> Tesla no solo ensambla; fabrica desde el asiento hasta el procesador de Inteligencia Artificial (hacia atrás) y te vende el auto directo desde su web sin usar automotoras tradicionales (hacia adelante).
+            </div>
+        </div>
+        <button class="btn-regresar" onclick="cerrarModal()">⬅ Regresar</button>
+    </div>
+
+    <div id="modal-4" class="ventana-modal">
+        <h2>Límites a la Empresa y Costos de Coordinación</h2>
+        <div class="contenido-texto">
+            <p>La integración vertical extrema no es gratuita. A medida que Tesla aumentó el número de procesos internos, se dispararon sus 
+                <span class="tooltip">Costos de Coordinación
+                    <span class="tooltip-text"><strong>Definición:</strong> Problemas administrativos por ser demasiado grandes.<br><br><strong>Ejemplo:</strong> Burocracia extrema, lentitud en decisiones y problemas para supervisar a miles de empleados.</span>
+                </span>.
+            </p>
+            <p>En la teoría económica, el <strong>tamaño óptimo</strong> de Tesla se encuentra exactamente en el punto donde el costo marginal de organizar una transacción extra internamente se iguala al costo de realizarla en el mercado abierto.</p>
+            <div class="caja-ejemplo">
+                <strong>💡 Ejemplo General:</strong> Al intentar automatizar y controlar el 100% de la fábrica de Fremont internamente, Elon Musk reconoció que "los humanos están subestimados". La excesiva complejidad generó lo que él llamó el "Infierno de Producción", retrasando la entrega de miles de autos.
+            </div>
+        </div>
+        <button class="btn-regresar" onclick="cerrarModal()">⬅ Regresar</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
