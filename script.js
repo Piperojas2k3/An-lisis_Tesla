@@ -1,3 +1,14 @@
+// --- 1. SOLUCIÓN AL RECARGO DE PÁGINA ---
+// Forzar al navegador a empezar siempre desde arriba y en la portada
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+window.onload = function() {
+    window.scrollTo(0, 0);
+    document.getElementById('cortina').classList.remove('abierta');
+    paginaActual = "portada";
+};
+
 // --- NAVEGACIÓN ---
 const cortina = document.getElementById('cortina');
 const btnIngresar = document.getElementById('btn-ingresar');
@@ -15,6 +26,8 @@ btnIngresar.addEventListener('click', () => {
 btnVolverPortada.addEventListener('click', () => {
     cortina.classList.remove('abierta');
     paginaActual = "portada";
+    // Devolvemos el scroll arriba suavemente por si bajaron al simulador
+    setTimeout(() => { window.scrollTo({top: 0, behavior: 'smooth'}); }, 500);
 });
 
 btnIrSimulador.addEventListener('click', () => {
@@ -87,6 +100,7 @@ animate3D();
 const ctx = document.getElementById('graficoCostos').getContext('2d');
 const b = document.getElementById('burocracia');
 const f = document.getElementById('friccion');
+const exp = document.getElementById('explicacion'); // Referencia para el texto
 let chart;
 
 window.aplicarEscenario = (buro, fric) => { b.value = buro; f.value = fric; update(); };
@@ -103,9 +117,23 @@ function update() {
     }
 
     const txt = document.getElementById('texto-veredicto');
-    if(opt < 1.5) { txt.textContent = "COMPRAR"; txt.style.color = "var(--blue)"; }
-    else if(opt > 3.5) { txt.textContent = "FABRICAR"; txt.style.color = "var(--red)"; }
-    else { txt.textContent = "MIXTO"; txt.style.color = "var(--green)"; }
+    
+    // Aquí está el texto de explicación restaurado
+    if(opt < 1.5) { 
+        txt.textContent = "COMPRAR"; 
+        txt.style.color = "var(--blue)"; 
+        exp.textContent = "Los proveedores son eficientes y baratos. No te desgastes fabricando tú mismo.";
+    }
+    else if(opt > 3.5) { 
+        txt.textContent = "FABRICAR"; 
+        txt.style.color = "var(--red)"; 
+        exp.textContent = "El mercado es muy riesgoso y abusivo. Debes integrar procesos y controlar tu fábrica.";
+    }
+    else { 
+        txt.textContent = "MIXTO"; 
+        txt.style.color = "var(--green)"; 
+        exp.textContent = "Equilibrio perfecto. Fabrica las piezas clave y terceriza lo secundario.";
+    }
 
     if(chart) {
         chart.data.labels = labels; chart.data.datasets[0].data = dCC; chart.data.datasets[1].data = dCT; chart.data.datasets[2].data = dTot; chart.update();
@@ -117,7 +145,17 @@ function update() {
                 { label: 'C. Transacción', data: dCT, borderColor: '#2997ff', tension: 0.4 },
                 { label: 'Costo Total', data: dTot, borderColor: '#30d158', borderWidth: 4, fill: true, backgroundColor: 'rgba(48, 209, 88, 0.1)' }
             ]},
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0 } } }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                scales: { 
+                    x: { grid: { color: 'rgba(255,255,255,0.1)' } }, // Grillas más sutiles para el nuevo fondo
+                    y: { min: 0, grid: { color: 'rgba(255,255,255,0.1)' } } 
+                },
+                plugins: {
+                    legend: { labels: { color: '#f5f5f7' } }
+                }
+            }
         });
     }
 }
