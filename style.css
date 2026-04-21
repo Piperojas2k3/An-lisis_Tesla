@@ -1,81 +1,82 @@
-/* Variables y base igual que antes */
 :root {
-    --bg-color: #0a0a0a;
-    --card-bg: #171717;
-    --text-main: #f5f5f7;
-    --text-muted: #a1a1a6;
-    --accent-red: #e82127;
-    --accent-blue: #2997ff;
-    --accent-green: #30d158;
+    --bg: #0a0a0a;
+    --card: #171717;
+    --text: #f5f5f7;
+    --muted: #a1a1a6;
+    --red: #e82127;
+    --blue: #2997ff;
+    --green: #30d158;
 }
 
-body { font-family: 'Montserrat', sans-serif; line-height: 1.6; color: var(--text-main); background-color: var(--bg-color); margin: 0; padding: 0; overflow-x: hidden; }
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+}
 
-/* Hero y layout general */
-.hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #1f1f1f 0%, #0a0a0a 100%); border-bottom: 1px solid #333; }
-.hero-content h1 { font-size: 5rem; letter-spacing: 10px; margin: 0; font-weight: 700; text-transform: uppercase; }
-.subtitle { font-size: 1.5rem; color: var(--text-muted); font-weight: 300; margin-bottom: 5px; }
-.tagline { font-size: 1rem; color: var(--accent-red); font-weight: 600; margin-bottom: 40px; }
-.btn-scroll { display: inline-block; padding: 12px 24px; border: 2px solid var(--text-main); color: var(--text-main); text-decoration: none; border-radius: 30px; font-weight: 600; transition: all 0.3s ease; }
-.btn-scroll:hover { background: var(--text-main); color: var(--bg-color); }
+.hero {
+    height: 100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
 
-main { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
-.grid-teoria { display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 60px; }
-@media (min-width: 768px) { .grid-teoria { grid-template-columns: 1fr 1fr; } }
-.tarjeta { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid #2a2a2a; transition: transform 0.3s ease; }
-.tarjeta:hover { transform: translateY(-5px); border-color: #444; }
-h2 { font-size: 1.3rem; color: white; border-bottom: 1px solid #333; padding-bottom: 15px; margin-top: 0; }
-p, li { color: var(--text-muted); font-size: 0.95rem; }
+h1 { font-size:4rem; }
 
-/* Tooltips (Magia para principiantes) */
+.btn-scroll {
+    border:1px solid white;
+    padding:10px 20px;
+    text-decoration:none;
+    color:white;
+}
+
+.interactivo {
+    padding:40px;
+    background:var(--card);
+}
+
+.simulador-grid {
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    gap:30px;
+}
+
+.veredicto-caja {
+    margin-top:20px;
+    padding:20px;
+    background:#222;
+    border-left:5px solid var(--green);
+    transition:0.3s;
+}
+
+.hint {
+    text-align:center;
+    color:var(--muted);
+}
+
 .tooltip {
-    color: var(--accent-blue);
-    border-bottom: 1px dashed var(--accent-blue);
-    cursor: help;
-    position: relative;
-    font-weight: 600;
+    border-bottom:1px dashed var(--blue);
+    cursor:pointer;
 }
+
 .tooltip:hover::after {
-    content: attr(data-info);
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    z-index: 10;
-    pointer-events: none;
+    content:attr(data-info);
+    position:absolute;
+    background:#333;
+    padding:10px;
+    border-radius:8px;
 }
 
-/* Simulador Layout */
-.interactivo { background: var(--card-bg); padding: 40px; border-radius: 16px; border: 1px solid #333; }
-.interactivo-header { text-align: center; margin-bottom: 30px; }
-.simulador-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-@media (min-width: 900px) { .simulador-grid { grid-template-columns: 300px 1fr; } }
+.grid-teoria {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    padding:40px;
+}
 
-.escenarios-botones { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
-.escenarios-botones button { background: #222; border: 1px solid #444; color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 0.85rem; }
-.escenarios-botones button:hover { background: var(--text-main); color: black; }
-
-.control-grupo { margin-bottom: 25px; }
-.badge { background: #333; padding: 4px 10px; border-radius: 20px; color: white; font-size: 0.9rem; float: right; }
-
-input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin-top: 15px; }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--text-main); cursor: pointer; margin-top: -8px; }
-input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #444; border-radius: 2px; }
-
-/* Veredicto Visual */
-.veredicto-caja { background: #222; padding: 20px; border-radius: 12px; border-left: 4px solid var(--accent-green); margin-top: 30px; }
-.veredicto-caja h3 { margin: 0 0 10px 0; font-size: 1rem; color: white; }
-#texto-veredicto { margin: 0; font-weight: bold; color: var(--accent-green); font-size: 1.1rem; }
-
-.grafico-contenedor { position: relative; height: 400px; width: 100%; }
-
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+.tarjeta {
+    background:var(--card);
+    padding:20px;
+}
