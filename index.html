@@ -1,210 +1,191 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis Estratégico: Tesla, Inc.</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-</head>
-<body>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-    <canvas id="bg-canvas"></canvas>
+<canvas id="bg-canvas"></canvas>
 
-    <nav id="nav-global" class="oculto">
-        <button onclick="volverAlMenu()" class="btn-volver">◂ Volver al Panel Principal</button>
-        <span class="nav-titulo">Análisis Estratégico de Organización Industrial</span>
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <h1>TESLA</h1>
+        <p>Org. Industrial • Cap 2</p>
+    </div>
+    <nav class="sidebar-nav">
+        <button class="tab-btn activo" data-target="tab-intro">01. Teoría y Evolución</button>
+        <button class="tab-btn" data-target="tab-gobernanza">02. Gobernanza y Riesgo</button>
+        <button class="tab-btn" data-target="tab-datos">03. Mapa de Integración</button>
+        <button class="tab-btn" data-target="tab-financiero">04. Impacto Financiero</button>
+        <button class="tab-btn destaque" data-target="tab-simulador">05. Simulador CEO</button>
     </nav>
+</aside>
 
-    <main id="pantalla-menu" class="pantalla activa">
-        <div class="menu-header">
-            <h1>TESLA, INC.</h1>
-            <p class="tagline">La Teoría de la Firma y los Costos de Transacción</p>
-            <p class="instruccion">Seleccione un módulo para comenzar la lectura interactiva</p>
-        </div>
+<main class="main-content">
 
-        <div class="dashboard-grid">
-            <div class="modulo-card" onclick="abrirSeccion('sec-introduccion')">
-                <div class="modulo-numero">01</div>
-                <h2>La Firma como Sustituto</h2>
-                <p>Introducción a la teoría de Coase y la racionalidad limitada.</p>
+    <section id="tab-intro" class="seccion-tab activa">
+        <header class="seccion-header">
+            <h2>La Firma como Sustituto del Mercado</h2>
+            <p>Por qué las empresas deciden internalizar procesos.</p>
+        </header>
+        
+        <div class="grid-2-col">
+            <div class="card glass">
+                <h3>El Problema Inicial</h3>
+                <p>Las organizaciones surgen para internalizar transacciones cuando los costos de mercado superan los costos de coordinación jerárquica. La <strong>racionalidad limitada</strong> en sectores emergentes (2010) impedía contratos perfectos.</p>
             </div>
-            <div class="modulo-card" onclick="abrirSeccion('sec-perfil')">
-                <div class="modulo-numero">02</div>
-                <h2>Perfil de Integración</h2>
-                <p>Manufactura, red de carga, software y el "So What?" estratégico.</p>
-            </div>
-            <div class="modulo-card" onclick="abrirSeccion('sec-riesgos')">
-                <div class="modulo-numero">03</div>
-                <h2>Riesgos y Factor China</h2>
-                <p>Análisis de desempeño, pasivos contingentes y eficacia fiscal.</p>
-            </div>
-            <div class="modulo-card destaque" onclick="abrirSeccion('sec-simulador')">
-                <div class="modulo-numero">04</div>
-                <h2>Sala del CEO (Simulador)</h2>
-                <p>Ponga a prueba la teoría ajustando los costos de coordinación y transacción.</p>
+            <div class="card glass borde-rojo">
+                <h3>La Solución de Musk</h3>
+                <p>Optar por la integración para mitigar el <strong>problema del asalto (Hold-up)</strong>. Al desarrollar componentes críticos in-house, Tesla evita que proveedores externos capturen sus <strong>cuasi-rentas</strong>.</p>
             </div>
         </div>
-    </main>
 
-    <section id="sec-introduccion" class="pantalla oculto">
-        <div class="contenido-articulo">
-            <h2>1. Introducción: La Firma como Sustituto del Mercado</h2>
-            <div class="texto-fluido">
-                <p>Desde la óptica de la organización industrial, Tesla, Inc. no representa meramente un fabricante de automóviles, sino una respuesta institucional ante las ineficiencias del mecanismo de precios. La teoría de la firma postula que las organizaciones surgen para internalizar transacciones cuando los costos de mercado —búsqueda, negociación y monitoreo— superan los costos de coordinación jerárquica.</p>
-                
-                <p>En el caso de Tesla, la <span class="termino-glosario" data-term="racionalidad">racionalidad limitada</span> de los agentes en sectores emergentes y la elevada <span class="termino-glosario" data-term="especificidad">especificidad de los activos</span> (tecnología de baterías y software de IA) justifican su estructura.</p>
-                
-                <div class="caja-destacada">
-                    Bajo la dirección de Elon Musk, Tesla ha optado por la integración jerárquica para mitigar el <span class="termino-glosario" data-term="holdup">problema del asalto (hold-up problem)</span>; al desarrollar componentes críticos in-house, la firma evita que proveedores externos capturen las <span class="termino-glosario" data-term="cuasirentas">rentas de su innovación tecnológica</span>.
-                </div>
-
-                <p>Esta decisión busca reducir la incertidumbre en industrias donde el mercado externo es incapaz de ofrecer la agilidad necesaria. La consolidación de energía, transporte y robótica bajo una sola firma no es solo una visión holística, sino un movimiento estratégico para corregir fallos de mercado en infraestructura y estándares tecnológicos. Esta arquitectura organizativa se traduce en un grado de integración vertical que redefine las fronteras tradicionales de la firma.</p>
+        <div class="card glass mt-20">
+            <h3>Línea de Tiempo Interactiva: Camino a la Jerarquía</h3>
+            <div class="timeline-horizontal">
+                <button class="btn-year activo" onclick="mostrarInfoYear('2008', this)">2008</button>
+                <div class="linea"></div>
+                <button class="btn-year" onclick="mostrarInfoYear('2014', this)">2014</button>
+                <div class="linea"></div>
+                <button class="btn-year" onclick="mostrarInfoYear('2019', this)">2019</button>
+                <div class="linea"></div>
+                <button class="btn-year" onclick="mostrarInfoYear('2023', this)">2023</button>
             </div>
-        </div>
-    </section>
-
-    <section id="sec-perfil" class="pantalla oculto">
-        <div class="contenido-articulo">
-            <h2>2. Perfil de Integración Vertical en Tesla, Inc.</h2>
-            <div class="texto-fluido">
-                <p>La integración vertical en Tesla constituye una barrera estratégica de entrada y un mecanismo de control de calidad superior. Al internalizar eslabones clave, la empresa genera complementos estratégicos donde el valor del sistema integrado —hardware, software y red de carga— supera con creces la suma de sus partes, una sinergia que los fabricantes tradicionales (OEM) no pueden replicar debido a la fragmentación de su cadena de suministro.</p>
-                
-                <h3>Eslabones críticos internalizados:</h3>
-                <ul class="lista-premium">
-                    <li><strong>Manufactura y Ensamblaje:</strong> Operaciones en Giga Texas (sede y producción de Model Y/Cybertruck), Giga Shanghai, Giga Berlín y la planta de Fremont.</li>
-                    <li><strong>Integración "Aguas Arriba" (Upstream):</strong> Tesla ha avanzado hacia la base de su cadena con la producción de celdas en Giga Nevada y su propia refinería de litio en Texas, asegurando el control sobre insumos críticos.</li>
-                    <li><strong>Infraestructura de Red:</strong> El dominio de la red global de Superchargers elimina la dependencia de terceros y garantiza la experiencia de usuario.</li>
-                    <li><strong>Software de Vanguardia:</strong> Desarrollo propio de FSD (Full Self-Driving), el robot Optimus y la infraestructura de entrenamiento de redes neuronales.</li>
-                </ul>
-
-                <div class="caja-destacada borde-azul">
-                    <strong>El "So What?" Estratégico: Agilidad frente a Fragmentación</strong><br>
-                    Esta estructura permite a Tesla ejecutar actualizaciones Over-the-Air (OTA) que optimizan el activo de forma remota. Mientras que un fabricante tradicional enfrenta ciclos de software desincronizados entre múltiples proveedores, Tesla opera como una jerarquía unificada de software que fabrica hardware. Sin embargo, esta autonomía interna genera una <span class="termino-glosario" data-term="pathdependency">dependencia de sendero (path dependency)</span> respecto a ciertos suministros globales que desafían su soberanía operativa.
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="sec-riesgos" class="pantalla oculto">
-        <div class="contenido-articulo">
-            <h2>3. Determinantes de Gobernanza y Desempeño</h2>
-            <div class="texto-fluido">
-                <p>A pesar de su perfil de integración, Tesla enfrenta una tensión entre su autonomía y la realidad de un <span class="termino-glosario" data-term="monopsonio">monopsonio de facto</span> en el suministro de materiales críticos controlados por China. Esta dependencia geográfica introduce riesgos de gobernanza que complican su narrativa de soberanía industrial estadounidense.</p>
-                
-                <div class="data-vis-panel">
-                    <h4>Dependencia Geopolítica y Materiales</h4>
-                    <div class="barra-contenedor">
-                        <label>Suministro de materiales para baterías (Origen Chino): <span class="valor-barra">39%</span></label>
-                        <div class="barra-fondo"><div class="barra-fill china" data-target="39"></div></div>
-                        <small>Proveedores: Ganfeng Lithium, Zhejiang Huayou Cobalt (12% participación estatal).</small>
-                    </div>
-                    <div class="barra-contenedor">
-                        <label>Proveedor estratégico de compuestos inorgánicos (Novoray): <span class="valor-barra">9%</span></label>
-                        <div class="barra-fondo"><div class="barra-fill estado" data-target="9"></div></div>
-                        <small>Riesgo de gobernanza por influencia política directa.</small>
-                    </div>
-                    <p class="txt-muted" style="margin-top: 15px;"><em>Comparativa Proveedores Totales: China (17%) vs. EE.UU. (22%). La imposición de aranceles del 7.8% por la UE a vehículos chinos ha obligado a Tesla a buscar amparo legal, mostrando su vulnerabilidad.</em></p>
-                </div>
-
-                <h3>Análisis de Desempeño y Riesgos Estratégicos (2024-2026)</h3>
-                <p>Tesla atraviesa una fase de consolidación donde los costos de la jerarquía han comenzado a presionar los márgenes. Mantener plantas de gran escala a capacidad parcial genera costos fijos masivos, evidenciando una rigidez del modelo ante fallos en la previsión de ventas.</p>
-
-                <div class="kpi-grid">
-                    <div class="kpi-card">
-                        <h5>Ingresos (2024)</h5>
-                        <div class="kpi-valor" data-num="97690">$0 M</div>
-                        <p>Crecimiento anémico del 0.9%</p>
-                    </div>
-                    <div class="kpi-card">
-                        <h5>Margen Neto (2024)</h5>
-                        <div class="kpi-valor text-red" data-num="7.26">0%</div>
-                        <p>Frente al 15.5% de 2023</p>
-                    </div>
-                    <div class="kpi-card">
-                        <h5>Provisión Impuestos</h5>
-                        <div class="kpi-valor" data-num="1837">$0 M</div>
-                        <p>Reduce utilidad neta a $7,091 M</p>
-                    </div>
-                </div>
-
-                <h3>Pasivos Contingentes y Eficacia Fiscal</h3>
-                <p>El valor de Tesla depende de su tecnología autónoma, la cual enfrenta hoy una exposición legal crítica que funciona como un pasivo contingente masivo. La firma acumula 21 demandas activas.</p>
-                
-                <div class="alerta-legal">
-                    <h4>Riesgo Económico Estimado por Demandas</h4>
-                    <div class="contador-deuda text-red">+$<span id="counter-riesgo" data-target="14500">0</span> Millones</div>
-                    <ul>
-                        <li><strong>$5,000 M:</strong> Fraude bursátil por promesas de Robotaxis.</li>
-                        <li><strong>$1,000 - $5,000 M:</strong> Accidentes vinculados a Autopilot/FSD.</li>
-                        <li><strong>$243 M:</strong> Ordenados por jurado en Miami (2025).</li>
-                    </ul>
-                </div>
-
-                <p>A pesar de esto, Tesla demuestra una sofisticación fiscal que subsidia su modelo jerárquico. En 20 años generó $264,000 millones en EE.UU. sin pagar impuestos federales, movilizando cerca de $18,000 millones entre filiales internacionales (Holanda y Singapur).</p>
-
-                <div class="caja-destacada borde-verde">
-                    <strong>Lecciones de Organización Industrial</strong>
-                    <ul>
-                        <li><strong>Paradoja de la Integración:</strong> Integra para ganar autonomía, pero su escala masiva la condena a depender de rivales sistémicos (China).</li>
-                        <li><strong>Fallo de la Jerarquía:</strong> Altos costos fijos (Giga-fábricas) castigan el margen neto cuando la demanda cae, demostrando menor resiliencia que el mercado ante ciclos.</li>
-                        <li><strong>Intangible como Pasivo:</strong> El software (FSD) transmuta de generador de valor a pasivo contingente sin resolución regulatoria.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="sec-simulador" class="pantalla oculto">
-        <div class="contenido-articulo ancho-completo">
-            <h2>Sala del CEO: Simulador de Tamaño Óptimo</h2>
-            <p class="txt-muted center">Cruza los Costos de Coordinación (Burocracia Interna) con los Costos de Transacción (Fricción del Mercado).</p>
             
-            <div class="interactivo" id="simulador">
-                <div class="escenarios-botones">
-                    <button onclick="aplicarEscenario(180, 600)">Mercado Eficiente</button>
-                    <button onclick="aplicarEscenario(50, 1800)">Riesgo de Hold-up (Caso Tesla)</button>
-                    <button onclick="aplicarEscenario(200, 1500)">Fallo de Jerarquía (Capacidad Ociosa)</button>
+            <div id="info-year-box" class="info-year-box">
+                <h4 id="year-title">2008: Dependencia Total</h4>
+                <p id="year-desc">Tesla fabricaba el Roadster dependiendo del chasis de Lotus y celdas de batería genéricas. Riesgo extremo de mercado y asimetría de información.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tab-gobernanza" class="seccion-tab oculto">
+        <header class="seccion-header">
+            <h2>Riesgo de Hold-Up y Cuasi-Rentas</h2>
+            <p>El impacto de la especificidad de los activos (O. Williamson).</p>
+        </header>
+
+        <div class="grid-2-col">
+            <div class="card glass">
+                <h3>Termómetro de Hold-Up</h3>
+                <p class="txt-muted">Mueve la especificidad del activo para ver quién domina la negociación.</p>
+                <div class="controles-mini">
+                    <label>Especificidad: <span id="val-espec">50</span>%</label>
+                    <input type="range" id="slider-espec" min="0" max="100" value="50">
                 </div>
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="chart-holdup"></canvas>
+                </div>
+            </div>
             
-                <div class="simulador-grid">
-                    <div class="controles-panel">
-                        <div class="control-grupo">
-                            <label>Burocracia Interna (Coord.): <span id="val-burocracia" class="badge">100</span></label>
-                            <input type="range" id="burocracia" min="10" max="200" value="100" step="10">
-                            <small id="desc-burocracia" class="txt-dinamico red"></small>
-                        </div>
-                        <div class="control-grupo">
-                            <label>Fricción del Mercado (Trans.): <span id="val-friccion" class="badge">1000</span></label>
-                            <input type="range" id="friccion" min="500" max="2000" value="1000" step="100">
-                            <small id="desc-friccion" class="txt-dinamico blue"></small>
-                        </div>
-                        <div class="veredicto-caja" id="caja-veredicto">
-                            <h3>DECISIÓN FINAL:</h3>
-                            <p id="texto-veredicto"></p>
-                            <small id="explicacion"></small>
-                        </div>
-                    </div>
-                    <div class="grafico-contenedor">
-                        <canvas id="graficoCostos"></canvas>
-                    </div>
+            <div class="card glass">
+                <h3>La Transformación Fundamental</h3>
+                <p>Al firmar un contrato para piezas únicas, el mercado desaparece y se convierte en un <strong>Monopolio Bilateral</strong>. El proveedor te tiene atrapado.</p>
+                <div class="alert-box">
+                    <strong>Consecuencia:</strong> Tesla entendió que subcontratar el chip de Inteligencia Artificial (FSD) a Nvidia era un riesgo letal. La única cura contra la extorsión de un proveedor único es la <strong>Jerarquía Interna</strong>.
                 </div>
             </div>
         </div>
     </section>
 
-    <aside id="panel-glosario" class="cerrado">
-        <button onclick="cerrarGlosario()" class="btn-cerrar-glosario">✖ Cerrar</button>
-        <h3 id="glosario-titulo">Concepto</h3>
-        <p id="glosario-definicion">Definición...</p>
-        <div class="glosario-ejemplo">
-            <strong>Aplicación en Tesla:</strong>
-            <p id="glosario-ejemplo-texto">Ejemplo...</p>
-        </div>
-    </aside>
+    <section id="tab-datos" class="seccion-tab oculto">
+        <header class="seccion-header">
+            <h2>Mapa de Integración Global</h2>
+            <p>La estructura de Gigafactories y el control del suministro.</p>
+        </header>
 
-    <script src="script.js"></script>
-</body>
-</html>
+        <div class="grid-2-col">
+            <div class="card glass">
+                <h3>Nodos de Jerarquía (Giga-Network)</h3>
+                <p class="txt-muted">Pasa el cursor sobre los nodos para ver los costos y estrategias.</p>
+                <div class="mapa-red">
+                    <div class="nodo-mapa" data-info="Refinería Texas: Asegura litio propio. Integración hacia atrás.">🏭 Upstream (Litio)</div>
+                    <div class="nodo-mapa" data-info="Giga Nevada: Alianza híbrida con Panasonic. Riesgo compartido.">🔋 Celdas Batería</div>
+                    <div class="nodo-mapa" data-info="Fremont/Shanghai: Costos fijos altísimos. Capacidad de 2M autos.">🚗 Ensamblaje</div>
+                    <div class="nodo-mapa destaque-mapa" data-info="Superchargers: Eliminación de terceros. Monopolio de carga.">⚡ Red de Carga</div>
+                </div>
+                <div id="info-mapa" class="info-mapa-box">Pasa el cursor por un nodo...</div>
+            </div>
+
+            <div class="card glass">
+                <h3>Radar de Integración</h3>
+                <p class="txt-muted">Tesla vs Industria Tradicional</p>
+                <div class="chart-container" style="height: 280px;">
+                    <canvas id="chart-radar"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tab-financiero" class="seccion-tab oculto">
+        <header class="seccion-header">
+            <h2>Impacto Financiero y Legal</h2>
+            <p>Los límites de la jerarquía: Costos fijos y pasivos contingentes.</p>
+        </header>
+
+        <div class="grid-3-col mb-20">
+            <div class="kpi-box glass">
+                <h4>Margen Neto (2024)</h4>
+                <span class="kpi-valor text-red">7.26%</span>
+                <small>Caída severa por costos fijos</small>
+            </div>
+            <div class="kpi-box glass">
+                <h4>Dependencia China</h4>
+                <span class="kpi-valor text-yellow anim-num" data-target="39">0</span><span class="kpi-valor text-yellow">%</span>
+                <small>Materiales críticos</small>
+            </div>
+            <div class="kpi-box glass borde-rojo">
+                <h4>Riesgo Legal (FSD)</h4>
+                <span class="kpi-valor text-red">$<span class="anim-num" data-target="14.5">0</span>B</span>
+                <small>21 demandas por tecnología</small>
+            </div>
+        </div>
+
+        <div class="grid-2-col">
+            <div class="card glass">
+                <h3>Fallo por Capacidad Ociosa</h3>
+                <p class="txt-muted">Tener Giga-fábricas castiga el margen neto si caen las ventas.</p>
+                <div class="chart-container" style="height: 200px;">
+                    <canvas id="chart-margen"></canvas>
+                </div>
+            </div>
+            <div class="card glass">
+                <h3>Ingeniería Fiscal</h3>
+                <p>Para financiar este modelo integrado de enormes costos de coordinación, Tesla utiliza esquemas fiscales. En 20 años generó <strong>$264,000M</strong> en EE.UU. sin pagar impuestos federales, moviendo utilidades a Holanda y Singapur.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tab-simulador" class="seccion-tab oculto">
+        <header class="seccion-header">
+            <h2>Simulador del Punto Óptimo (Make vs Buy)</h2>
+            <p>Encuentra el equilibrio exacto entre la fricción del mercado y la burocracia interna.</p>
+        </header>
+
+        <div class="card glass simulador-gigante">
+            <div class="escenarios-botones">
+                <button onclick="aplicarSimulador(180, 600)">1. Proveedores Baratos</button>
+                <button onclick="aplicarSimulador(50, 1800)">2. Proveedores Abusivos (Hold-Up)</button>
+                <button onclick="aplicarSimulador(200, 1500)">3. Caos Burocrático Interno</button>
+            </div>
+
+            <div class="panel-controles-horiz">
+                <div class="control">
+                    <label>Burocracia Interna (Curva Roja): <span id="val-burocracia" class="tag bg-red">100</span></label>
+                    <input type="range" id="slider-burocracia" min="10" max="200" value="100" step="10">
+                </div>
+                <div class="control">
+                    <label>Fricción del Mercado (Curva Azul): <span id="val-friccion" class="tag bg-blue">1000</span></label>
+                    <input type="range" id="slider-friccion" min="500" max="2000" value="1000" step="100">
+                </div>
+                <div class="veredicto-box" id="caja-veredicto">
+                    <h4>DECISIÓN DEL MODELO</h4>
+                    <h3 id="texto-veredicto">...</h3>
+                    <p id="explicacion-veredicto">...</p>
+                </div>
+            </div>
+            
+            <div class="chart-container" style="height: 450px; width: 100%; margin-top: 20px;">
+                <canvas id="chart-simulador"></canvas>
+            </div>
+        </div>
+    </section>
+
+</main>
