@@ -1,6 +1,6 @@
 // ==========================================
 // 1. BASE DE DATOS DEL GLOSARIO (Zero-Dudas)
-// ==========================================
+// =========================================
 const glosarioData = {
     "racionalidad": {
         titulo: "Racionalidad Limitada",
