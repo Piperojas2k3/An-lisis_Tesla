@@ -1,191 +1,204 @@
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Estratégico: Tesla & Teoría de la Firma</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
 
-<canvas id="bg-canvas"></canvas>
+    <canvas id="bg-canvas"></canvas>
 
-<aside class="sidebar">
-    <div class="sidebar-header">
-        <h1>TESLA</h1>
-        <p>Org. Industrial • Cap 2</p>
-    </div>
-    <nav class="sidebar-nav">
-        <button class="tab-btn activo" data-target="tab-intro">01. Teoría y Evolución</button>
-        <button class="tab-btn" data-target="tab-gobernanza">02. Gobernanza y Riesgo</button>
-        <button class="tab-btn" data-target="tab-datos">03. Mapa de Integración</button>
-        <button class="tab-btn" data-target="tab-financiero">04. Impacto Financiero</button>
-        <button class="tab-btn destaque" data-target="tab-simulador">05. Simulador CEO</button>
-    </nav>
-</aside>
-
-<main class="main-content">
-
-    <section id="tab-intro" class="seccion-tab activa">
-        <header class="seccion-header">
-            <h2>La Firma como Sustituto del Mercado</h2>
-            <p>Por qué las empresas deciden internalizar procesos.</p>
-        </header>
-        
-        <div class="grid-2-col">
-            <div class="card glass">
-                <h3>El Problema Inicial</h3>
-                <p>Las organizaciones surgen para internalizar transacciones cuando los costos de mercado superan los costos de coordinación jerárquica. La <strong>racionalidad limitada</strong> en sectores emergentes (2010) impedía contratos perfectos.</p>
-            </div>
-            <div class="card glass borde-rojo">
-                <h3>La Solución de Musk</h3>
-                <p>Optar por la integración para mitigar el <strong>problema del asalto (Hold-up)</strong>. Al desarrollar componentes críticos in-house, Tesla evita que proveedores externos capturen sus <strong>cuasi-rentas</strong>.</p>
-            </div>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>TESLA</h1>
+            <p>Org. Industrial • Cap 2</p>
         </div>
+        <nav class="sidebar-nav">
+            <button class="tab-btn activo" data-target="tab-intro">01. Teoría y Evolución</button>
+            <button class="tab-btn" data-target="tab-gobernanza">02. Gobernanza y Riesgo</button>
+            <button class="tab-btn" data-target="tab-datos">03. Mapa de Integración</button>
+            <button class="tab-btn" data-target="tab-financiero">04. Impacto Financiero</button>
+            <button class="tab-btn destaque" data-target="tab-simulador">05. Simulador CEO</button>
+        </nav>
+    </aside>
 
-        <div class="card glass mt-20">
-            <h3>Línea de Tiempo Interactiva: Camino a la Jerarquía</h3>
-            <div class="timeline-horizontal">
-                <button class="btn-year activo" onclick="mostrarInfoYear('2008', this)">2008</button>
-                <div class="linea"></div>
-                <button class="btn-year" onclick="mostrarInfoYear('2014', this)">2014</button>
-                <div class="linea"></div>
-                <button class="btn-year" onclick="mostrarInfoYear('2019', this)">2019</button>
-                <div class="linea"></div>
-                <button class="btn-year" onclick="mostrarInfoYear('2023', this)">2023</button>
-            </div>
+    <main class="main-content">
+
+        <section id="tab-intro" class="seccion-tab activa">
+            <header class="seccion-header">
+                <h2>La Firma como Sustituto del Mercado</h2>
+                <p>Por qué las empresas deciden internalizar procesos.</p>
+            </header>
             
-            <div id="info-year-box" class="info-year-box">
-                <h4 id="year-title">2008: Dependencia Total</h4>
-                <p id="year-desc">Tesla fabricaba el Roadster dependiendo del chasis de Lotus y celdas de batería genéricas. Riesgo extremo de mercado y asimetría de información.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="tab-gobernanza" class="seccion-tab oculto">
-        <header class="seccion-header">
-            <h2>Riesgo de Hold-Up y Cuasi-Rentas</h2>
-            <p>El impacto de la especificidad de los activos (O. Williamson).</p>
-        </header>
-
-        <div class="grid-2-col">
-            <div class="card glass">
-                <h3>Termómetro de Hold-Up</h3>
-                <p class="txt-muted">Mueve la especificidad del activo para ver quién domina la negociación.</p>
-                <div class="controles-mini">
-                    <label>Especificidad: <span id="val-espec">50</span>%</label>
-                    <input type="range" id="slider-espec" min="0" max="100" value="50">
+            <div class="grid-2-col">
+                <div class="card glass">
+                    <h3>El Problema Inicial</h3>
+                    <p>Las organizaciones surgen para internalizar transacciones cuando los costos de mercado superan los costos de coordinación jerárquica. La <strong>racionalidad limitada</strong> en sectores emergentes (2010) impedía contratos perfectos.</p>
                 </div>
-                <div class="chart-container" style="height: 250px;">
-                    <canvas id="chart-holdup"></canvas>
+                <div class="card glass borde-rojo">
+                    <h3>La Solución de Musk</h3>
+                    <p>Optar por la integración para mitigar el <strong>problema del asalto (Hold-up)</strong>. Al desarrollar componentes críticos in-house, Tesla evita que proveedores externos capturen sus <strong>cuasi-rentas</strong>.</p>
                 </div>
             </div>
-            
-            <div class="card glass">
-                <h3>La Transformación Fundamental</h3>
-                <p>Al firmar un contrato para piezas únicas, el mercado desaparece y se convierte en un <strong>Monopolio Bilateral</strong>. El proveedor te tiene atrapado.</p>
-                <div class="alert-box">
-                    <strong>Consecuencia:</strong> Tesla entendió que subcontratar el chip de Inteligencia Artificial (FSD) a Nvidia era un riesgo letal. La única cura contra la extorsión de un proveedor único es la <strong>Jerarquía Interna</strong>.
+
+            <div class="card glass mt-20">
+                <h3>Línea de Tiempo Interactiva: Camino a la Jerarquía</h3>
+                <div class="timeline-horizontal">
+                    <button class="btn-year activo" onclick="mostrarInfoYear('2008', this)">2008</button>
+                    <div class="linea"></div>
+                    <button class="btn-year" onclick="mostrarInfoYear('2014', this)">2014</button>
+                    <div class="linea"></div>
+                    <button class="btn-year" onclick="mostrarInfoYear('2019', this)">2019</button>
+                    <div class="linea"></div>
+                    <button class="btn-year" onclick="mostrarInfoYear('2023', this)">2023</button>
+                </div>
+                
+                <div id="info-year-box" class="info-year-box">
+                    <h4 id="year-title">2008: Dependencia Total</h4>
+                    <p id="year-desc">Tesla fabricaba el Roadster dependiendo del chasis de Lotus y celdas de batería genéricas. Riesgo extremo de mercado y asimetría de información.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="tab-datos" class="seccion-tab oculto">
-        <header class="seccion-header">
-            <h2>Mapa de Integración Global</h2>
-            <p>La estructura de Gigafactories y el control del suministro.</p>
-        </header>
+        <section id="tab-gobernanza" class="seccion-tab oculto">
+            <header class="seccion-header">
+                <h2>Riesgo de Hold-Up y Cuasi-Rentas</h2>
+                <p>El impacto de la especificidad de los activos (O. Williamson).</p>
+            </header>
 
-        <div class="grid-2-col">
-            <div class="card glass">
-                <h3>Nodos de Jerarquía (Giga-Network)</h3>
-                <p class="txt-muted">Pasa el cursor sobre los nodos para ver los costos y estrategias.</p>
-                <div class="mapa-red">
-                    <div class="nodo-mapa" data-info="Refinería Texas: Asegura litio propio. Integración hacia atrás.">🏭 Upstream (Litio)</div>
-                    <div class="nodo-mapa" data-info="Giga Nevada: Alianza híbrida con Panasonic. Riesgo compartido.">🔋 Celdas Batería</div>
-                    <div class="nodo-mapa" data-info="Fremont/Shanghai: Costos fijos altísimos. Capacidad de 2M autos.">🚗 Ensamblaje</div>
-                    <div class="nodo-mapa destaque-mapa" data-info="Superchargers: Eliminación de terceros. Monopolio de carga.">⚡ Red de Carga</div>
+            <div class="grid-2-col">
+                <div class="card glass">
+                    <h3>Termómetro de Hold-Up</h3>
+                    <p class="txt-muted">Mueve la especificidad del activo para ver quién domina la negociación.</p>
+                    <div class="controles-mini">
+                        <label>Especificidad: <span id="val-espec">50</span>%</label>
+                        <input type="range" id="slider-espec" min="0" max="100" value="50">
+                    </div>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="chart-holdup"></canvas>
+                    </div>
                 </div>
-                <div id="info-mapa" class="info-mapa-box">Pasa el cursor por un nodo...</div>
-            </div>
-
-            <div class="card glass">
-                <h3>Radar de Integración</h3>
-                <p class="txt-muted">Tesla vs Industria Tradicional</p>
-                <div class="chart-container" style="height: 280px;">
-                    <canvas id="chart-radar"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="tab-financiero" class="seccion-tab oculto">
-        <header class="seccion-header">
-            <h2>Impacto Financiero y Legal</h2>
-            <p>Los límites de la jerarquía: Costos fijos y pasivos contingentes.</p>
-        </header>
-
-        <div class="grid-3-col mb-20">
-            <div class="kpi-box glass">
-                <h4>Margen Neto (2024)</h4>
-                <span class="kpi-valor text-red">7.26%</span>
-                <small>Caída severa por costos fijos</small>
-            </div>
-            <div class="kpi-box glass">
-                <h4>Dependencia China</h4>
-                <span class="kpi-valor text-yellow anim-num" data-target="39">0</span><span class="kpi-valor text-yellow">%</span>
-                <small>Materiales críticos</small>
-            </div>
-            <div class="kpi-box glass borde-rojo">
-                <h4>Riesgo Legal (FSD)</h4>
-                <span class="kpi-valor text-red">$<span class="anim-num" data-target="14.5">0</span>B</span>
-                <small>21 demandas por tecnología</small>
-            </div>
-        </div>
-
-        <div class="grid-2-col">
-            <div class="card glass">
-                <h3>Fallo por Capacidad Ociosa</h3>
-                <p class="txt-muted">Tener Giga-fábricas castiga el margen neto si caen las ventas.</p>
-                <div class="chart-container" style="height: 200px;">
-                    <canvas id="chart-margen"></canvas>
+                
+                <div class="card glass">
+                    <h3>La Transformación Fundamental</h3>
+                    <p>Al firmar un contrato para piezas únicas, el mercado desaparece y se convierte en un <strong>Monopolio Bilateral</strong>. El proveedor te tiene atrapado.</p>
+                    <div class="alert-box">
+                        <strong>Consecuencia:</strong> Tesla entendió que subcontratar el chip de Inteligencia Artificial (FSD) a Nvidia era un riesgo letal. La única cura contra la extorsión de un proveedor único es la <strong>Jerarquía Interna</strong>.
+                    </div>
                 </div>
             </div>
-            <div class="card glass">
-                <h3>Ingeniería Fiscal</h3>
-                <p>Para financiar este modelo integrado de enormes costos de coordinación, Tesla utiliza esquemas fiscales. En 20 años generó <strong>$264,000M</strong> en EE.UU. sin pagar impuestos federales, moviendo utilidades a Holanda y Singapur.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="tab-simulador" class="seccion-tab oculto">
-        <header class="seccion-header">
-            <h2>Simulador del Punto Óptimo (Make vs Buy)</h2>
-            <p>Encuentra el equilibrio exacto entre la fricción del mercado y la burocracia interna.</p>
-        </header>
+        <section id="tab-datos" class="seccion-tab oculto">
+            <header class="seccion-header">
+                <h2>Mapa de Integración Global</h2>
+                <p>La estructura de Gigafactories y el control del suministro.</p>
+            </header>
 
-        <div class="card glass simulador-gigante">
-            <div class="escenarios-botones">
-                <button onclick="aplicarSimulador(180, 600)">1. Proveedores Baratos</button>
-                <button onclick="aplicarSimulador(50, 1800)">2. Proveedores Abusivos (Hold-Up)</button>
-                <button onclick="aplicarSimulador(200, 1500)">3. Caos Burocrático Interno</button>
-            </div>
-
-            <div class="panel-controles-horiz">
-                <div class="control">
-                    <label>Burocracia Interna (Curva Roja): <span id="val-burocracia" class="tag bg-red">100</span></label>
-                    <input type="range" id="slider-burocracia" min="10" max="200" value="100" step="10">
+            <div class="grid-2-col">
+                <div class="card glass">
+                    <h3>Nodos de Jerarquía (Giga-Network)</h3>
+                    <p class="txt-muted">Pasa el cursor sobre los nodos para ver los costos y estrategias.</p>
+                    <div class="mapa-red">
+                        <div class="nodo-mapa" data-info="Refinería Texas: Asegura litio propio. Integración hacia atrás.">🏭 Upstream (Litio)</div>
+                        <div class="nodo-mapa" data-info="Giga Nevada: Alianza híbrida con Panasonic. Riesgo compartido.">🔋 Celdas Batería</div>
+                        <div class="nodo-mapa" data-info="Fremont/Shanghai: Costos fijos altísimos. Capacidad de 2M autos.">🚗 Ensamblaje</div>
+                        <div class="nodo-mapa destaque-mapa" data-info="Superchargers: Eliminación de terceros. Monopolio de carga.">⚡ Red de Carga</div>
+                    </div>
+                    <div id="info-mapa" class="info-mapa-box">Pasa el cursor por un nodo...</div>
                 </div>
-                <div class="control">
-                    <label>Fricción del Mercado (Curva Azul): <span id="val-friccion" class="tag bg-blue">1000</span></label>
-                    <input type="range" id="slider-friccion" min="500" max="2000" value="1000" step="100">
-                </div>
-                <div class="veredicto-box" id="caja-veredicto">
-                    <h4>DECISIÓN DEL MODELO</h4>
-                    <h3 id="texto-veredicto">...</h3>
-                    <p id="explicacion-veredicto">...</p>
+
+                <div class="card glass">
+                    <h3>Radar de Integración</h3>
+                    <p class="txt-muted">Tesla vs Industria Tradicional</p>
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="chart-radar"></canvas>
+                    </div>
                 </div>
             </div>
-            
-            <div class="chart-container" style="height: 450px; width: 100%; margin-top: 20px;">
-                <canvas id="chart-simulador"></canvas>
-            </div>
-        </div>
-    </section>
+        </section>
 
-</main>
+        <section id="tab-financiero" class="seccion-tab oculto">
+            <header class="seccion-header">
+                <h2>Impacto Financiero y Legal</h2>
+                <p>Los límites de la jerarquía: Costos fijos y pasivos contingentes.</p>
+            </header>
+
+            <div class="grid-3-col mb-20">
+                <div class="kpi-box glass">
+                    <h4>Margen Neto (2024)</h4>
+                    <span class="kpi-valor text-red">7.26%</span>
+                    <small>Caída severa por costos fijos</small>
+                </div>
+                <div class="kpi-box glass">
+                    <h4>Dependencia China</h4>
+                    <span class="kpi-valor text-yellow anim-num" data-target="39">0</span><span class="kpi-valor text-yellow">%</span>
+                    <small>Materiales críticos</small>
+                </div>
+                <div class="kpi-box glass borde-rojo">
+                    <h4>Riesgo Legal (FSD)</h4>
+                    <span class="kpi-valor text-red">$<span class="anim-num" data-target="14.5">0</span>B</span>
+                    <small>21 demandas por tecnología</small>
+                </div>
+            </div>
+
+            <div class="grid-2-col">
+                <div class="card glass">
+                    <h3>Fallo por Capacidad Ociosa</h3>
+                    <p class="txt-muted">Tener Giga-fábricas castiga el margen neto si caen las ventas.</p>
+                    <div class="chart-container" style="height: 200px;">
+                        <canvas id="chart-margen"></canvas>
+                    </div>
+                </div>
+                <div class="card glass">
+                    <h3>Ingeniería Fiscal</h3>
+                    <p>Para financiar este modelo integrado de enormes costos de coordinación, Tesla utiliza esquemas fiscales. En 20 años generó <strong>$264,000M</strong> en EE.UU. sin pagar impuestos federales, moviendo utilidades a Holanda y Singapur.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-simulador" class="seccion-tab oculto">
+            <header class="seccion-header">
+                <h2>Simulador del Punto Óptimo (Make vs Buy)</h2>
+                <p>Encuentra el equilibrio exacto entre la fricción del mercado y la burocracia interna.</p>
+            </header>
+
+            <div class="card glass simulador-gigante">
+                <div class="escenarios-botones">
+                    <button onclick="aplicarSimulador(180, 600)">1. Proveedores Baratos</button>
+                    <button onclick="aplicarSimulador(50, 1800)">2. Proveedores Abusivos (Hold-Up)</button>
+                    <button onclick="aplicarSimulador(200, 1500)">3. Caos Burocrático Interno</button>
+                </div>
+
+                <div class="panel-controles-horiz">
+                    <div class="control">
+                        <label>Burocracia Interna (Curva Roja): <span id="val-burocracia" class="tag bg-red">100</span></label>
+                        <input type="range" id="slider-burocracia" min="10" max="200" value="100" step="10">
+                    </div>
+                    <div class="control">
+                        <label>Fricción del Mercado (Curva Azul): <span id="val-friccion" class="tag bg-blue">1000</span></label>
+                        <input type="range" id="slider-friccion" min="500" max="2000" value="1000" step="100">
+                    </div>
+                    <div class="veredicto-box" id="caja-veredicto">
+                        <h4>DECISIÓN DEL MODELO</h4>
+                        <h3 id="texto-veredicto">...</h3>
+                        <p id="explicacion-veredicto">...</p>
+                    </div>
+                </div>
+                
+                <div class="chart-container" style="height: 450px; width: 100%; margin-top: 20px;">
+                    <canvas id="chart-simulador"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
