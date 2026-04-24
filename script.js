@@ -1,4 +1,46 @@
 // ==========================================
+// 0. LÓGICA DE PORTADA Y MENÚ HAMBURGUESA (CON TRANSICIONES SUAVES)
+// ==========================================
+const btnEntrar = document.getElementById('btn-entrar');
+const btnVolver = document.getElementById('btn-volver-portada');
+const pantallaPortada = document.getElementById('pantalla-portada');
+const pantallaDashboard = document.getElementById('pantalla-dashboard');
+
+const btnMenuToggle = document.getElementById('btn-menu-toggle');
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.getElementById('main-content');
+
+// Ingresar al panel desde la Portada (Transición Suave)
+btnEntrar.addEventListener('click', () => {
+    pantallaPortada.classList.replace('pantalla-in', 'pantalla-out');
+    pantallaDashboard.classList.replace('pantalla-out', 'pantalla-in');
+    
+    // Damos tiempo a la transición antes de renderizar el simulador
+    setTimeout(() => { updateSimulador(); }, 500); 
+});
+
+// Volver a la portada haciendo click en el Logo
+btnVolver.addEventListener('click', () => {
+    pantallaDashboard.classList.replace('pantalla-in', 'pantalla-out');
+    pantallaPortada.classList.replace('pantalla-out', 'pantalla-in');
+});
+
+// Toggle del menú hamburguesa
+btnMenuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('colapsada');
+    mainContent.classList.toggle('expandido');
+    
+    // Redimensionar gráficos de Chart.js si los hay
+    setTimeout(() => {
+        if(chartHoldUp) chartHoldUp.resize();
+        if(chartRadar) chartRadar.resize();
+        if(chartMargen) chartMargen.resize();
+        if(chartSimulador) chartSimulador.resize();
+    }, 400); 
+});
+
+
+// ==========================================
 // 1. NAVEGACIÓN Y TABS
 // ==========================================
 const tabs = document.querySelectorAll('.tab-btn');
@@ -20,28 +62,12 @@ tabs.forEach(tab => {
         // Disparar animaciones/gráficos según la pestaña
         if(targetId === 'tab-datos') { renderRadar(); }
         if(targetId === 'tab-financiero') { renderMargen(); animarNumeros(); }
+        if(targetId === 'tab-gobernanza') { updateHoldUp(); }
     });
 });
 
 // ==========================================
-// 2. LÍNEA DE TIEMPO INTERACTIVA
-// ==========================================
-const datosTimeline = {
-    '2008': { tit: "2008: Dependencia Total", desc: "Tesla fabricaba el Roadster dependiendo del chasis de Lotus y celdas genéricas. Riesgo extremo de mercado." },
-    '2014': { tit: "2014: Giga Nevada (Modelo Híbrido)", desc: "Alianza con Panasonic. Primer paso hacia la integración vertical para asegurar el suministro de celdas ante la alta especificidad." },
-    '2019': { tit: "2019: Chip FSD (Independencia)", desc: "Ruptura con Nvidia. Tesla diseña su propio chip de IA. Integración hacia atrás para proteger sus cuasi-rentas tecnológicas." },
-    '2023': { tit: "2023: Refinería de Litio", desc: "Control total de la cadena (Upstream). Tesla se convierte en el acreedor residual absoluto de su tecnología." }
-};
-
-window.mostrarInfoYear = (year, btn) => {
-    document.querySelectorAll('.btn-year').forEach(b => b.classList.remove('activo'));
-    btn.classList.add('activo');
-    document.getElementById('year-title').textContent = datosTimeline[year].tit;
-    document.getElementById('year-desc').textContent = datosTimeline[year].desc;
-};
-
-// ==========================================
-// 3. MAPA INTERACTIVO (GIGA-NETWORK)
+// 2. MAPA INTERACTIVO (GIGA-NETWORK)
 // ==========================================
 document.querySelectorAll('.nodo-mapa').forEach(nodo => {
     nodo.addEventListener('mouseenter', (e) => {
@@ -53,7 +79,7 @@ document.querySelectorAll('.nodo-mapa').forEach(nodo => {
 });
 
 // ==========================================
-// 4. ANIMACIÓN DE NÚMEROS (FINANCIERO)
+// 3. ANIMACIÓN DE NÚMEROS (FINANCIERO)
 // ==========================================
 let numerosAnimados = false;
 function animarNumeros() {
@@ -78,12 +104,12 @@ function animarNumeros() {
 }
 
 // ==========================================
-// 5. GRÁFICOS (CHART.JS)
+// 4. GRÁFICOS (CHART.JS)
 // ==========================================
 Chart.defaults.color = '#8b949e';
 Chart.defaults.font.family = "'Inter', sans-serif";
 
-// 5.1 Termómetro de Hold-Up
+// 4.1 Termómetro de Hold-Up
 const ctxHoldUp = document.getElementById('chart-holdup').getContext('2d');
 const sEspec = document.getElementById('slider-espec');
 let chartHoldUp;
@@ -106,9 +132,8 @@ function updateHoldUp() {
     }
 }
 sEspec.addEventListener('input', updateHoldUp);
-updateHoldUp();
 
-// 5.2 Radar Chart
+// 4.2 Radar Chart
 let chartRadar;
 function renderRadar() {
     if(chartRadar) return;
@@ -125,7 +150,7 @@ function renderRadar() {
     });
 }
 
-// 5.3 Bar Chart Margen
+// 4.3 Bar Chart Margen
 let chartMargen;
 function renderMargen() {
     if(chartMargen) return;
@@ -140,7 +165,7 @@ function renderMargen() {
 }
 
 // ==========================================
-// 6. SIMULADOR GIGANTE (PUNTO ÓPTIMO)
+// 5. SIMULADOR GIGANTE (PUNTO ÓPTIMO)
 // ==========================================
 const ctxSimulador = document.getElementById('chart-simulador').getContext('2d');
 const sliderBuro = document.getElementById('slider-burocracia');
@@ -193,10 +218,10 @@ function updateSimulador() {
 }
 sliderBuro.addEventListener('input', updateSimulador);
 sliderFricc.addEventListener('input', updateSimulador);
-updateSimulador();
+
 
 // ==========================================
-// 7. MOTOR 3D (BACKGROUND)
+// 6. MOTOR 3D (BACKGROUND)
 // ==========================================
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
